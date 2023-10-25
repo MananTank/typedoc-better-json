@@ -4,6 +4,7 @@ import { getReadableType } from "../utils/getReadableType";
 
 export function getEnumDoc(data: JSONOutput.DeclarationReflection): EnumDoc {
   return {
+    kind: "enum",
     name: data.name,
     summary: data.comment?.summary,
     source: data.sources?.[0]?.url,

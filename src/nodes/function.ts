@@ -11,6 +11,7 @@ export function getFunctionDoc(
   data: JSONOutput.DeclarationReflection,
 ): FunctionDoc {
   return {
+    kind: "function",
     name: data.name,
     signatures: data.signatures?.map(getFunctionSignatureDoc),
     source: data.sources?.[0]?.url,

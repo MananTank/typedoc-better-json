@@ -62,6 +62,7 @@ export function getClassDoc(data: JSONOutput.DeclarationReflection): ClassDoc {
   }
 
   const output: ClassDoc = {
+    kind: "class",
     name: data.name,
     source: data.sources?.[0]?.url,
 

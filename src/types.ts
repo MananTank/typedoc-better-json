@@ -11,12 +11,14 @@ export type TransformedDoc = {
 };
 
 export type FunctionDoc = {
+  kind: "function";
   name: string;
   source?: string;
   signatures?: FunctionSignature[];
 };
 
 export type AccessorDoc = {
+  kind: "accessor";
   name: string;
   source?: string;
   summary?: JSONOutput.CommentDisplayPart[];
@@ -52,6 +54,7 @@ export type FunctionSignatureArg = {
 };
 
 export type InterfaceDoc = {
+  kind: "type";
   name: string;
   source?: string;
   summary?: JSONOutput.CommentDisplayPart[];
@@ -60,6 +63,7 @@ export type InterfaceDoc = {
 };
 
 export type VariableDoc = {
+  kind: "variable";
   name: string;
   source?: string;
   summary?: JSONOutput.CommentDisplayPart[];
@@ -77,6 +81,7 @@ export type TypeDeclarationDoc = {
 };
 
 export type EnumDoc = {
+  kind: "enum";
   name: string;
   source?: string;
   summary?: JSONOutput.CommentDisplayPart[];
@@ -88,6 +93,7 @@ export type EnumDoc = {
 };
 
 export type ClassDoc = {
+  kind: "class";
   name: string;
   source?: string;
   constructor: FunctionDoc;
