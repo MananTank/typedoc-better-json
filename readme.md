@@ -136,7 +136,10 @@ async function Example() {
   const transformedData = transform(fileData);
 
   // save it in file
-  await writeFile(outFile, JSON.stringify(transformedData, null, 2));
+  await writeFile(
+    "path/to/transformed-doc.json",
+    JSON.stringify(transformedData, null, 2),
+  );
 }
 ```
 
