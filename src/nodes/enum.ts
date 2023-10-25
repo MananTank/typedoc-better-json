@@ -1,4 +1,4 @@
-import { JSONOutput } from "typedoc";
+import type { JSONOutput } from "typedoc";
 import { EnumDoc } from "../types";
 import { getReadableType } from "../utils/getReadableType";
 

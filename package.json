@@ -2,7 +2,8 @@
   "name": "typedoc-better-json",
   "version": "0.1.0",
   "description": "Transforms typedoc's json output to a format that is better for creating custom documentation website",
-  "main": "dist/index.mjs",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/MananTank/typedoc-better-json",
   "scripts": {
@@ -12,7 +13,7 @@
     "lint": "eslint src/",
     "typecheck": "tsc",
     "prettier": "prettier . --write",
-    "create-build": "tsup src/index.ts --format esm --dts"
+    "create-build": "tsup src/index.ts --format cjs,esm --dts"
   },
   "keywords": [
     "typedoc",

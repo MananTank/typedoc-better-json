@@ -1,4 +1,4 @@
-import { JSONOutput } from "typedoc";
+import type { JSONOutput } from "typedoc";
 
 export function isComponentType(data: JSONOutput.DeclarationReflection) {
   return (

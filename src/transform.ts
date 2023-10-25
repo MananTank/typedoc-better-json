@@ -1,5 +1,5 @@
-import { ProcessedDoc } from "./types";
-import { JSONOutput } from "typedoc";
+import { TransformedDoc } from "./types";
+import type { JSONOutput } from "typedoc";
 import { getFunctionDoc } from "./nodes/function";
 import { isComponentType } from "./utils/isComponentType";
 import { getInterfaceDoc } from "./nodes/interface";
@@ -16,23 +16,24 @@ const groupNameMap = {
   Enumerations: "enums",
 } as const;
 
-export function postprocess(inputData: JSONOutput.ProjectReflection) {
-  const functions: ProcessedDoc["functions"] = [];
-  const hooks: ProcessedDoc["hooks"] = [];
-  const components: ProcessedDoc["components"] = [];
-  const types: ProcessedDoc["types"] = [];
-  const interfaces: ProcessedDoc["interfaces"] = [];
-  const variables: ProcessedDoc["variables"] = [];
-  const enums: ProcessedDoc["enums"] = [];
-  const classes: ProcessedDoc["classes"] = [];
+/**
+ * Transform the typedoc's JSON output to a better format which is more suitable for creating custom website
+ * @param inputData - typedoc's JSON output parsed into a JS object via JSON.parse
+ */
+export function transform(inputData: JSONOutput.ProjectReflection) {
+  const functions: TransformedDoc["functions"] = [];
+  const hooks: TransformedDoc["hooks"] = [];
+  const components: TransformedDoc["components"] = [];
+  const types: TransformedDoc["types"] = [];
+  const variables: TransformedDoc["variables"] = [];
+  const enums: TransformedDoc["enums"] = [];
+  const classes: TransformedDoc["classes"] = [];
 
-  // create a mapping from child id to data for lookup
   const childrenMap: Record<string, JSONOutput.DeclarationReflection> = {};
   inputData.children?.forEach((child) => {
     childrenMap[child.id] = child;
   });
 
-  // create a groups structure
   inputData.groups?.forEach((group) => {
     if (group.title in groupNameMap) {
       const mappedTitle =
@@ -79,12 +80,11 @@ export function postprocess(inputData: JSONOutput.ProjectReflection) {
     }
   });
 
-  const output: ProcessedDoc = {
+  const output: TransformedDoc = {
     functions: functions.length > 0 ? functions : undefined,
     hooks: hooks.length > 0 ? hooks : undefined,
     variables: variables.length > 0 ? variables : undefined,
     types: types.length > 0 ? types : undefined,
-    interfaces: interfaces.length > 0 ? interfaces : undefined,
     components: components.length > 0 ? components : undefined,
     enums: enums.length > 0 ? enums : undefined,
     classes: classes.length > 0 ? classes : undefined,

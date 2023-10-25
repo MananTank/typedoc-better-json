@@ -1,4 +1,4 @@
-import { JSONOutput } from "typedoc";
+import type { JSONOutput } from "typedoc";
 
 export function getReadableType(typeObj: JSONOutput.SomeType): string {
   switch (typeObj.type) {

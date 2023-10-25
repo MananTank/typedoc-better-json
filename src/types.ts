@@ -1,11 +1,10 @@
-import { JSONOutput } from "typedoc";
+import type { JSONOutput } from "typedoc";
 
-export type ProcessedDoc = {
+export type TransformedDoc = {
   functions?: FunctionDoc[];
   hooks?: FunctionDoc[];
   components?: FunctionDoc[];
   types?: InterfaceDoc[];
-  interfaces?: InterfaceDoc[];
   variables?: VariableDoc[];
   enums?: EnumDoc[];
   classes?: ClassDoc[];

@@ -1,4 +1,4 @@
-import { JSONOutput } from "typedoc";
+import type { JSONOutput } from "typedoc";
 import { ClassDoc } from "../types";
 import { getFunctionDoc } from "./function";
 import { getVariableDoc } from "./variable";
