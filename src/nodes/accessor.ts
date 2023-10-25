@@ -6,6 +6,7 @@ export function getAccessorDoc(
   data: JSONOutput.DeclarationReflection,
 ): AccessorDoc {
   return {
+    kind: "accessor",
     name: data.name,
     source: data.sources?.[0]?.url,
     summary: data.comment?.summary,

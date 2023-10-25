@@ -7,6 +7,7 @@ export function getVariableDoc(
   data: JSONOutput.DeclarationReflection,
 ): VariableDoc {
   return {
+    kind: "variable",
     name: data.name,
     summary: data.comment?.summary,
     source: data.sources?.[0]?.url,

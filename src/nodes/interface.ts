@@ -6,6 +6,7 @@ export function getInterfaceDoc(
   data: JSONOutput.DeclarationReflection,
 ): InterfaceDoc {
   return {
+    kind: "type",
     name: data.name,
     summary: data.comment?.summary,
     source: data.sources?.[0]?.url,
