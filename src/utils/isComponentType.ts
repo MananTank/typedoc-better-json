@@ -13,10 +13,10 @@ export function isComponentType(data: JSONOutput.DeclarationReflection) {
 }
 function isComponentName(str: string) {
   const firstChar = str[0];
-  if (!firstChar) {
-    return false;
-  }
-  if (firstChar === firstChar.toLowerCase()) {
+
+  if (firstChar && firstChar === firstChar.toUpperCase()) {
     return true;
   }
+
+  return false;
 }
