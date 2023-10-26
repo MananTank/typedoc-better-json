@@ -13,11 +13,13 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
         return `{ ${typeObj.declaration.children
           ?.map((child) => {
             if (child.type) {
-              return `${child.name}: ${getReadableType(child.type)}`;
+              return `${createValidKey(child.name)}: ${getReadableType(
+                child.type,
+              )}`;
             }
             return "";
           })
-          .join(", \n")} }`;
+          .join(", ")} }`;
       } else if (typeObj.declaration.signatures) {
         return typeObj.declaration.signatures
           .map(readableFunctionSignature)
@@ -37,9 +39,9 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
       return typeObj.name;
     }
 
-    // T | U | V ...
+    // (T) | (U) | (V) ...
     case "union": {
-      return typeObj.types.map(getReadableType).join(" | ");
+      return typeObj.types.map((t) => `(${getReadableType(t)})`).join(" | ");
     }
 
     // null, undefined, "hello", 12 etc
@@ -78,9 +80,9 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
       )}]`;
     }
 
-    // T & U & V ...
+    // (T) & (U) & (V) ...
     case "intersection": {
-      return typeObj.types.map(getReadableType).join(" & ");
+      return typeObj.types.map((t) => `${getReadableType(t)}`).join(" & ");
     }
 
     // { [Foo in Bar]: Baz }
@@ -134,6 +136,7 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
       return typeObj.name;
     }
 
+    // Foo is (Bar)
     case "predicate": {
       if (typeObj.targetType) {
         return `${typeObj.name} is (${getReadableType(typeObj.targetType)})`;
@@ -146,6 +149,7 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
       return `${typeObj.name}: ${getReadableType(typeObj.element)}`;
     }
 
+    // Foo?
     case "optional": {
       return `${getReadableType(typeObj.elementType)}?`;
     }
@@ -171,4 +175,12 @@ function readableFunctionSignature(
     : "";
 
   return `((${args})${returnType})`;
+}
+
+// if the key has a space or a dash, wrap it in quotes
+function createValidKey(str: string) {
+  if (str.includes(" ") || str.includes("-")) {
+    return `"${str}"`;
+  }
+  return str;
 }
