@@ -1,7 +1,7 @@
 import { RootContent } from "mdast";
 import type { JSONOutput } from "typedoc";
 
-export type SummaryNode = Omit<RootContent, "position">;
+export type SummaryNode = RootContent;
 export type Summary = SummaryNode[];
 
 export type BlockTag = Omit<JSONOutput.CommentTag, "content"> & {

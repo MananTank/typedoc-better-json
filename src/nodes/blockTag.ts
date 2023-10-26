@@ -1,6 +1,6 @@
 import { JSONOutput } from "typedoc";
-import { BlockTag } from "../../dist";
 import { getSummaryDoc } from "./summary";
+import { BlockTag } from "../types";
 
 export function getBlockTag(blockTag: JSONOutput.CommentTag): BlockTag {
   return {

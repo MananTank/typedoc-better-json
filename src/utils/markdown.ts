@@ -1,6 +1,6 @@
 import { RootContent } from "mdast";
 import { fromMarkdown } from "mdast-util-from-markdown";
-import { SummaryNode } from "../../dist";
+import { SummaryNode } from "../types";
 
 function simplifyNode(node: RootContent): SummaryNode {
   delete node.position;

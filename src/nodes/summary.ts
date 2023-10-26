@@ -1,6 +1,6 @@
 import type { JSONOutput } from "typedoc";
 import { parseMarkdown } from "../utils/markdown";
-import { Summary } from "../../dist";
+import { Summary } from "../types";
 
 export function getSummaryDoc(
   summary?: JSONOutput.CommentDisplayPart[],
