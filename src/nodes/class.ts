@@ -4,6 +4,8 @@ import { getFunctionDoc } from "./function";
 import { getVariableDoc } from "./variable";
 import { getAccessorDoc } from "./accessor";
 import { getReadableType } from "../utils/getReadableType";
+import { getSummaryDoc } from "./summary";
+import { getBlockTag } from "./blockTag";
 
 const groupMappings = {
   Constructors: "constructors",
@@ -66,8 +68,8 @@ export function getClassDoc(data: JSONOutput.DeclarationReflection): ClassDoc {
     name: data.name,
     source: data.sources?.[0]?.url,
 
-    summary: data.comment?.summary,
-    blockTags: data.comment?.blockTags,
+    summary: getSummaryDoc(data.comment?.summary),
+    blockTags: data.comment?.blockTags?.map(getBlockTag),
 
     constructor: constructors[0]!,
     methods: methods.length > 0 ? methods : undefined,

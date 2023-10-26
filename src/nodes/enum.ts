@@ -1,12 +1,13 @@
 import type { JSONOutput } from "typedoc";
 import { EnumDoc } from "../types";
 import { getReadableType } from "../utils/getReadableType";
+import { getSummaryDoc } from "./summary";
 
 export function getEnumDoc(data: JSONOutput.DeclarationReflection): EnumDoc {
   return {
     kind: "enum",
     name: data.name,
-    summary: data.comment?.summary,
+    summary: getSummaryDoc(data.comment?.summary),
     source: data.sources?.[0]?.url,
     members: getMembers(data),
   };
@@ -24,7 +25,7 @@ function getMembers(data: JSONOutput.DeclarationReflection) {
     return {
       name: child.name,
       value: getReadableType(child.type),
-      summary: child.comment?.summary,
+      summary: getSummaryDoc(child.comment?.summary),
     };
   });
 

@@ -1,4 +1,14 @@
+import { RootContent } from "mdast";
 import type { JSONOutput } from "typedoc";
+
+export type SummaryNode = Omit<RootContent, "position">;
+export type Summary = SummaryNode[];
+
+export type BlockTag = Omit<JSONOutput.CommentTag, "content"> & {
+  summary?: Summary;
+};
+
+export type Flags = JSONOutput.ReflectionFlags;
 
 export type TransformedDoc = {
   functions?: FunctionDoc[];
@@ -21,24 +31,24 @@ export type AccessorDoc = {
   kind: "accessor";
   name: string;
   source?: string;
-  summary?: JSONOutput.CommentDisplayPart[];
-  blockTags?: JSONOutput.CommentTag[];
+  summary?: Summary;
+  blockTags?: BlockTag[];
   returns?: {
     type?: string;
-    summary?: JSONOutput.CommentDisplayPart[];
+    summary?: Summary;
   };
-  flags?: JSONOutput.ReflectionFlags;
+  flags?: Flags;
 };
 
 export type FunctionSignature = {
-  summary?: JSONOutput.CommentDisplayPart[];
+  summary?: Summary;
   parameters?: FunctionParameter[];
   typeParameters?: TypeParameter[];
   returns?: {
     type?: string;
-    summary?: JSONOutput.CommentDisplayPart[];
+    summary?: Summary;
   };
-  blockTags?: JSONOutput.CommentTag[];
+  blockTags?: BlockTag[];
 };
 
 export type TypeParameter = {
@@ -49,15 +59,15 @@ export type TypeParameter = {
 export type FunctionParameter = {
   name: string;
   type?: string;
-  summary?: JSONOutput.CommentDisplayPart[];
-  flags?: JSONOutput.ReflectionFlags;
+  summary?: Summary;
+  flags?: Flags;
 };
 
 export type InterfaceDoc = {
   kind: "type";
   name: string;
   source?: string;
-  summary?: JSONOutput.CommentDisplayPart[];
+  summary?: Summary;
   type?: string;
   typeDeclaration?: TypeDeclarationDoc[];
 };
@@ -66,7 +76,7 @@ export type VariableDoc = {
   kind: "variable";
   name: string;
   source?: string;
-  summary?: JSONOutput.CommentDisplayPart[];
+  summary?: Summary;
   type?: string;
   typeDeclaration?: VariableTypeDeclaration[];
   flags?: JSONOutput.ReflectionFlags;
@@ -77,18 +87,18 @@ export type VariableTypeDeclaration = TypeDeclarationDoc | FunctionDoc;
 export type TypeDeclarationDoc = {
   name: string;
   type: string;
-  summary?: JSONOutput.CommentDisplayPart[];
+  summary?: Summary;
 };
 
 export type EnumDoc = {
   kind: "enum";
   name: string;
   source?: string;
-  summary?: JSONOutput.CommentDisplayPart[];
+  summary?: Summary;
   members: Array<{
     name: string;
     value: string;
-    summary?: JSONOutput.CommentDisplayPart[];
+    summary?: Summary;
   }>;
 };
 
@@ -100,7 +110,7 @@ export type ClassDoc = {
   properties?: VariableDoc[];
   methods?: FunctionDoc[];
   accessors?: AccessorDoc[];
-  summary?: JSONOutput.CommentDisplayPart[];
-  blockTags?: JSONOutput.CommentTag[];
+  summary?: Summary;
+  blockTags?: BlockTag[];
   implements?: string[];
 };

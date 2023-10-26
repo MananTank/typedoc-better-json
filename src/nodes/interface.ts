@@ -1,6 +1,7 @@
 import type { JSONOutput } from "typedoc";
 import { InterfaceDoc, TypeDeclarationDoc } from "../types";
 import { getReadableType } from "../utils/getReadableType";
+import { getSummaryDoc } from "./summary";
 
 export function getInterfaceDoc(
   data: JSONOutput.DeclarationReflection,
@@ -8,7 +9,7 @@ export function getInterfaceDoc(
   return {
     kind: "type",
     name: data.name,
-    summary: data.comment?.summary,
+    summary: getSummaryDoc(data.comment?.summary),
     source: data.sources?.[0]?.url,
     type: data.type ? getReadableType(data.type) : undefined,
     typeDeclaration: getDeclaration(data.type),
@@ -29,7 +30,7 @@ function getDeclaration(
     const output: TypeDeclarationDoc = {
       name: child.name,
       type: getReadableType(child.type),
-      summary: child.comment?.summary,
+      summary: getSummaryDoc(child.comment?.summary),
     };
 
     return output;
