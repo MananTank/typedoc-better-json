@@ -165,7 +165,7 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
 function readableFunctionSignature(
   signature: JSONOutput.SignatureReflection,
 ): string {
-  const args =
+  const parameters =
     signature.parameters
       ?.map((p) => (p.type ? `${p.name} : ${getReadableType(p.type)}` : p.name))
       .join(", ") || "";
@@ -174,7 +174,7 @@ function readableFunctionSignature(
     ? ` => ${getReadableType(signature.type)}`
     : "";
 
-  return `((${args})${returnType})`;
+  return `((${parameters})${returnType})`;
 }
 
 // if the key has a space or a dash, wrap it in quotes

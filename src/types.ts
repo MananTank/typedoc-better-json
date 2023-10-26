@@ -32,7 +32,7 @@ export type AccessorDoc = {
 
 export type FunctionSignature = {
   summary?: JSONOutput.CommentDisplayPart[];
-  args?: FunctionSignatureArg[];
+  parameters?: FunctionParameter[];
   typeParameters?: TypeParameter[];
   returns?: {
     type?: string;
@@ -46,7 +46,7 @@ export type TypeParameter = {
   extendsType?: string;
 };
 
-export type FunctionSignatureArg = {
+export type FunctionParameter = {
   name: string;
   type?: string;
   summary?: JSONOutput.CommentDisplayPart[];

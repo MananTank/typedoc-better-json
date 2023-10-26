@@ -2,7 +2,7 @@ import type { JSONOutput } from "typedoc";
 import {
   FunctionDoc,
   FunctionSignature,
-  FunctionSignatureArg,
+  FunctionParameter,
   TypeParameter,
 } from "../types";
 import { getReadableType } from "../utils/getReadableType";
@@ -21,8 +21,8 @@ export function getFunctionDoc(
 function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
   const output: FunctionSignature = {
     summary: signature.comment?.summary,
-    args: signature.parameters?.map((param) => {
-      const arg: FunctionSignatureArg = {
+    parameters: signature.parameters?.map((param) => {
+      const arg: FunctionParameter = {
         name: param.name,
         type: param.type ? getReadableType(param.type) : undefined,
         summary: param.comment?.summary,
