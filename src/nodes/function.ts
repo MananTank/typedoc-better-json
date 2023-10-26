@@ -6,6 +6,8 @@ import {
   TypeParameter,
 } from "../types";
 import { getReadableType } from "../utils/getReadableType";
+import { getSummaryDoc } from "./summary";
+import { getBlockTag } from "./blockTag";
 
 export function getFunctionDoc(
   data: JSONOutput.DeclarationReflection,
@@ -20,12 +22,12 @@ export function getFunctionDoc(
 
 function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
   const output: FunctionSignature = {
-    summary: signature.comment?.summary,
+    summary: getSummaryDoc(signature.comment?.summary),
     parameters: signature.parameters?.map((param) => {
       const arg: FunctionParameter = {
         name: param.name,
         type: param.type ? getReadableType(param.type) : undefined,
-        summary: param.comment?.summary,
+        summary: getSummaryDoc(param.comment?.summary),
         flags: Object.keys(param.flags).length > 0 ? param.flags : undefined,
       };
       return arg;
@@ -37,14 +39,15 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
       };
       return typeParam;
     }),
-    blockTags: signature.comment?.blockTags?.filter(
-      (w) => w.tag !== "@returns",
-    ),
+    blockTags: signature.comment?.blockTags
+      ?.filter((w) => w.tag !== "@returns")
+      .map(getBlockTag),
     returns: {
       type: signature.type ? getReadableType(signature.type) : undefined,
-      summary: signature.comment?.blockTags?.find(
-        (tag) => tag.tag === "@returns",
-      )?.content,
+      summary: getSummaryDoc(
+        signature.comment?.blockTags?.find((tag) => tag.tag === "@returns")
+          ?.content,
+      ),
     },
   };
 
