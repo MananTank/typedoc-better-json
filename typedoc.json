@@ -1,0 +1,240 @@
+{
+	"id": 0,
+	"name": "example",
+	"variant": "project",
+	"kind": 1,
+	"flags": {},
+	"children": [
+		{
+			"id": 1,
+			"name": "sum",
+			"variant": "declaration",
+			"kind": 64,
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "index.ts",
+					"line": 42,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 2,
+					"name": "sum",
+					"variant": "signature",
+					"kind": 4096,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Sum two or more numbers."
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "The sum of all numbers"
+									}
+								]
+							},
+							{
+								"tag": "@example",
+								"content": [
+									{
+										"kind": "code",
+										"text": "```javascript\nimport { sum } from \"my-library\";\n\nsum(1, 2, 3, 4); // 10\nsum(1, 2); // 3\n```"
+									}
+								]
+							},
+							{
+								"tag": "@remarks",
+								"content": [
+									{
+										"kind": "text",
+										"text": "This is a remark"
+									}
+								]
+							},
+							{
+								"tag": "@see",
+								"content": [
+									{
+										"kind": "inline-tag",
+										"tag": "@link",
+										"text": "https://en.wikipedia.org/wiki/Mathematics",
+										"target": "https://en.wikipedia.org/wiki/Mathematics"
+									},
+									{
+										"kind": "text",
+										"text": "\n\n# Heading 1\n## Heading 2\n### Heading 3\n#### Heading 4\n##### Heading 5\n###### Heading 6\n\n*This text will be italic*\n_This will also be italic_\n__This text will be bold__\n**This will also be bold**\n_You **can** combine them_\n\n* Item 1\n* Item 2\n * Item 2a\n * Item 2b\n\n1. numbered item 1\n2. numbered item 2\n3. numbered item 3"
+									}
+								]
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "index.ts",
+							"line": 42,
+							"character": 16
+						}
+					],
+					"parameters": [
+						{
+							"id": 3,
+							"name": "a",
+							"variant": "param",
+							"kind": 32768,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "First number"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 4,
+							"name": "b",
+							"variant": "param",
+							"kind": 32768,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Second number"
+									}
+								]
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 5,
+							"name": "rest",
+							"variant": "param",
+							"kind": 32768,
+							"flags": {
+								"isRest": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Rest of the numbers"
+									}
+								]
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "number"
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Functions",
+			"children": [
+				1
+			]
+		}
+	],
+	"packageName": "example",
+	"readme": [
+		{
+			"kind": "text",
+			"text": "# typedoc-better-json\n\nTransforms [typedoc](https://typedoc.org/)'s JSON output to a better format that is more suitable for creating custom documentation website\n\n## Why?\n\n[typedoc](https://typedoc.org/) 's JSON output is extremely complex and it is hard to use for creating a custom documentation website.\n\nThe [typedoc-json-parser](https://github.com/RealShadowNova/typedoc-json-parser)'s output is similar to typedoc's JSON output and doesn't convert the complex TypeScript types to human readable types. ( It has broken Types )\n\nThis library takes the [typedoc](https://typedoc.org/) 's JSON output as input and transforms it into a simpler, smaller and organized JSON output which can be used to create a custom documentation website easily\n\n## What you get\n\n### Human readable TypeScript types instead of complex structure\n\n<details>\n  <summary> typedoc gives you a very complex TypeScript Type like this: </summary>\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```json\n{\n  \"type\": {\n    \"type\": \"reference\",\n    \"target\": {\n      \"sourceFileName\": \"src/core/query-utils/required-param.ts\",\n      \"qualifiedName\": \"RequiredParam\"\n    },\n    \"typeArguments\": [\n      {\n        \"type\": \"union\",\n        \"types\": [\n          {\n            \"type\": \"literal\",\n            \"value\": null\n          },\n          {\n            \"type\": \"reference\",\n            \"target\": {\n              \"sourceFileName\": \"../sdk/src/evm/contracts/prebuilt-implementations/nft-drop.ts\",\n              \"qualifiedName\": \"NFTDrop\"\n            },\n            \"name\": \"NFTDrop\",\n            \"package\": \"@thirdweb-dev/sdk\"\n          },\n          {\n            \"type\": \"reference\",\n            \"target\": {\n              \"sourceFileName\": \"../sdk/src/evm/contracts/prebuilt-implementations/signature-drop.ts\",\n              \"qualifiedName\": \"SignatureDrop\"\n            },\n            \"name\": \"SignatureDrop\",\n            \"package\": \"@thirdweb-dev/sdk\"\n          },\n          {\n            \"type\": \"reference\",\n            \"target\": {\n              \"sourceFileName\": \"../sdk/src/evm/contracts/smart-contract.ts\",\n              \"qualifiedName\": \"SmartContract\"\n            },\n            \"typeArguments\": [\n              {\n                \"type\": \"reference\",\n                \"target\": {\n                  \"sourceFileName\": \"../../node_modules/.pnpm/@ethersproject+contracts@5.7.0/node_modules/@ethersproject/contracts/src.ts/index.ts\",\n                  \"qualifiedName\": \"BaseContract\"\n                },\n                \"name\": \"BaseContract\",\n                \"package\": \"@ethersproject/contracts\"\n              }\n            ],\n            \"name\": \"SmartContract\",\n            \"package\": \"@thirdweb-dev/sdk\"\n          }\n        ]\n      }\n    ],\n    \"name\": \"RequiredParam\",\n    \"package\": \"@thirdweb-dev/react-core\"\n  }\n}\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n</details>\n\n<details>\n  <summary> typedoc-better-json transforms it into this: </summary>\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```json\n{\n  \"type\": \"RequiredParam<null | NFTDrop | SignatureDrop | SmartContract<BaseContract>>\"\n}\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n</details>\n\n### Simpler, Smaller and organized JSON\n\nThe JSON output organizes functions, hooks, components, types, variables, enums, classes\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```ts\ntype TransformedDoc = {\n  functions?: FunctionDoc[];\n  hooks?: FunctionDoc[];\n  components?: FunctionDoc[];\n  types?: InterfaceDoc[];\n  variables?: VariableDoc[];\n  enums?: EnumDoc[];\n  classes?: ClassDoc[];\n};\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n## Installation\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```\nnpm i typedoc-better-json\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n## Usage\n\nFollow the [typedoc guide](https://typedoc.org/options/output/#json) for generating a JSON output.\n\nOnce you have the JSON file, you can transform it like this:\n\n"
+		},
+		{
+			"kind": "code",
+			"text": "```ts\nimport { transform } from \"typedoc-better-json\";\nimport { writeFile, readFile } from \"node:fs/promises\";\n\nasync function Example() {\n  // read the JSON file generated by typedoc\n  const fileContent = await readFile(\"path/to/doc.json\", \"utf8\");\n\n  // parse it\n  const fileData = JSON.parse(fileContent);\n\n  // transform it\n  const transformedData = transform(fileData);\n\n  // save it in file\n  await writeFile(\n    \"path/to/transformed-doc.json\",\n    JSON.stringify(transformedData, null, 2),\n  );\n}\n```"
+		},
+		{
+			"kind": "text",
+			"text": "\n\n### License\n\nMIT"
+		}
+	],
+	"symbolIdMap": {
+		"0": {
+			"sourceFileName": "tests/code/index.ts",
+			"qualifiedName": ""
+		},
+		"1": {
+			"sourceFileName": "tests/code/index.ts",
+			"qualifiedName": "sum"
+		},
+		"2": {
+			"sourceFileName": "tests/code/index.ts",
+			"qualifiedName": "sum"
+		},
+		"3": {
+			"sourceFileName": "tests/code/index.ts",
+			"qualifiedName": "a"
+		},
+		"4": {
+			"sourceFileName": "tests/code/index.ts",
+			"qualifiedName": "b"
+		},
+		"5": {
+			"sourceFileName": "tests/code/index.ts",
+			"qualifiedName": "rest"
+		}
+	}
+}
