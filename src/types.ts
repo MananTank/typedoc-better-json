@@ -11,6 +11,9 @@ export type BlockTag = Omit<JSONOutput.CommentTag, "content"> & {
 export type Flags = JSONOutput.ReflectionFlags;
 
 export type TransformedDoc = {
+  meta: {
+    typedocBetterJsonVersion: string;
+  };
   functions?: FunctionDoc[];
   hooks?: FunctionDoc[];
   components?: FunctionDoc[];
@@ -19,6 +22,13 @@ export type TransformedDoc = {
   enums?: EnumDoc[];
   classes?: ClassDoc[];
 };
+
+export type SomeDoc =
+  | FunctionDoc
+  | InterfaceDoc
+  | VariableDoc
+  | EnumDoc
+  | ClassDoc;
 
 export type FunctionDoc = {
   kind: "function";
@@ -113,4 +123,5 @@ export type ClassDoc = {
   summary?: Summary;
   blockTags?: BlockTag[];
   implements?: string[];
+  typeParameters?: TypeParameter[];
 };

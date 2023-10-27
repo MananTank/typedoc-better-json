@@ -1,5 +1,5 @@
 import type { JSONOutput } from "typedoc";
-import { ClassDoc } from "../types";
+import { ClassDoc, TypeParameter } from "../types";
 import { getFunctionDoc } from "./function";
 import { getVariableDoc } from "./variable";
 import { getAccessorDoc } from "./accessor";
@@ -75,6 +75,13 @@ export function getClassDoc(data: JSONOutput.DeclarationReflection): ClassDoc {
     methods: methods.length > 0 ? methods : undefined,
     properties: properties.length > 0 ? properties : undefined,
     accessors: accessors.length > 0 ? accessors : undefined,
+    typeParameters: data.typeParameters?.map((param) => {
+      const typeParam: TypeParameter = {
+        name: param.name,
+        extendsType: param.type ? getReadableType(param.type) : undefined,
+      };
+      return typeParam;
+    }),
 
     implements: data.implementedTypes?.map((t) => getReadableType(t)),
   };

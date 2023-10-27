@@ -3,3 +3,4 @@ node_modules
 dist
 tests/typedoc.json
 tests/output.json
+debug

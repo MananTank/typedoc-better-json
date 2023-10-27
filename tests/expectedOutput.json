@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "typedocBetterJsonVersion": "0.3.1"
+  },
   "functions": [
     {
       "kind": "function",
@@ -489,8 +492,7 @@
             }
           ]
         }
-      ],
-      "source": "https://github.com/MananTank/typedoc-gen/blob/d89b9a9/tests/code.ts#L58"
+      ]
     }
   ]
 }

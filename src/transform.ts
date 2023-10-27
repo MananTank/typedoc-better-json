@@ -6,6 +6,7 @@ import { getInterfaceDoc } from "./nodes/interface";
 import { getEnumDoc } from "./nodes/enum";
 import { getVariableDoc } from "./nodes/variable";
 import { getClassDoc } from "./nodes/class";
+import pkg from "../package.json";
 
 const groupNameMap = {
   Interfaces: "types",
@@ -81,6 +82,9 @@ export function transform(inputData: JSONOutput.ProjectReflection) {
   });
 
   const output: TransformedDoc = {
+    meta: {
+      typedocBetterJsonVersion: pkg.version,
+    },
     functions: functions.length > 0 ? functions : undefined,
     hooks: hooks.length > 0 ? hooks : undefined,
     variables: variables.length > 0 ? variables : undefined,
