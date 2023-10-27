@@ -32,6 +32,13 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
       };
       return arg;
     }),
+    returns: {
+      type: signature.type ? getReadableType(signature.type) : undefined,
+      summary: getSummaryDoc(
+        signature.comment?.blockTags?.find((tag) => tag.tag === "@returns")
+          ?.content,
+      ),
+    },
     typeParameters: signature.typeParameter?.map((param) => {
       const typeParam: TypeParameter = {
         name: param.name,
@@ -42,13 +49,6 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
     blockTags: signature.comment?.blockTags
       ?.filter((w) => w.tag !== "@returns")
       .map(getBlockTag),
-    returns: {
-      type: signature.type ? getReadableType(signature.type) : undefined,
-      summary: getSummaryDoc(
-        signature.comment?.blockTags?.find((tag) => tag.tag === "@returns")
-          ?.content,
-      ),
-    },
   };
 
   return output;

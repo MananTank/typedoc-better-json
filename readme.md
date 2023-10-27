@@ -93,6 +93,410 @@ This library takes the [typedoc](https://typedoc.org/) 's JSON output as input a
 
 </details>
 
+### Full Markdown parsing of the JSDoc comment
+
+```ts
+/**
+ * This is a description
+ *
+ * Second paragraph with some inline code `const a = 1`
+ *
+ * # Title
+ * ## Subtitle
+ *
+ * This is *italic* and this is **bold**
+ *
+ * * Item 1
+ * * Item 2
+ *  * Item 2a
+ *  * Item 2b
+ *
+ * 1. numbered item 1
+ * 2. numbered item 2
+ *
+ * @param a - First number
+ * @param b - Second number
+ * @returns the sum of both numbers
+ *
+ * @example
+ * ## another title
+ *
+ * You can also show examples by using markdown code blocks
+ *
+ * \`\`\`ts
+ * import { sum } from "my-library";
+ * sum(1, 2); // 3
+ * \`\`\`
+ *
+ * @remarks
+ *
+ * ## another title
+ *
+ * Some more content
+ *
+ * @see {@link https://en.wikipedia.org/wiki/Mathematics}
+ *
+ * @deprecated Use `fancySum` instead.
+ *
+ */
+export function sum(a: number, b: number) {
+  return a + b;
+}
+```
+
+<details>
+  <summary> For the above code, you will get this output: </summary>
+
+```json
+{
+  "functions": [
+    {
+      "kind": "function",
+      "name": "sum",
+      "signatures": [
+        {
+          "summary": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "This is a description"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Second paragraph with some inline code "
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "const a = 1"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 1,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Title"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Subtitle"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "This is "
+                },
+                {
+                  "type": "emphasis",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": " and this is "
+                },
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "ordered": false,
+              "start": null,
+              "spread": false,
+              "children": [
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 2a"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 2b"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "ordered": true,
+              "start": 1,
+              "spread": false,
+              "children": [
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "numbered item 1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "numbered item 2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "name": "a",
+              "type": "number",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "First number"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "b",
+              "type": "number",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Second number"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "returns": {
+            "type": "number",
+            "summary": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "the sum of both numbers"
+                  }
+                ]
+              }
+            ]
+          },
+          "blockTags": [
+            {
+              "tag": "@example",
+              "summary": [
+                {
+                  "type": "heading",
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "another title"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "You can also show examples by using markdown code blocks"
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "lang": "ts",
+                  "meta": null,
+                  "value": "import { sum } from \"my-library\";\nsum(1, 2); // 3"
+                }
+              ]
+            },
+            {
+              "tag": "@remarks",
+              "summary": [
+                {
+                  "type": "heading",
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "another title"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Some more content"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "@see",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "link",
+                      "title": null,
+                      "url": "https://en.wikipedia.org/wiki/Mathematics",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "https://en.wikipedia.org/wiki/Mathematics"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "@deprecated",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Use "
+                    },
+                    {
+                      "type": "inlineCode",
+                      "value": "fancySum"
+                    },
+                    {
+                      "type": "text",
+                      "value": " instead."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "https://github.com/MananTank/typedoc-gen/blob/b476ff8/tests/code.ts#L44"
+    }
+  ]
+}
+```
+
+</details>
+
 ### Simpler, Smaller and organized JSON
 
 The JSON output organizes functions, hooks, components, types, variables, enums, classes
@@ -146,3 +550,7 @@ async function Example() {
 ### License
 
 MIT
+
+```
+
+```
