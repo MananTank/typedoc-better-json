@@ -95,7 +95,7 @@ This library takes the [typedoc](https://typedoc.org/) 's JSON output as input a
 
 ### Full Markdown parsing of the JSDoc comment
 
-```ts
+````ts
 /**
  * This is a description
  *
@@ -123,10 +123,10 @@ This library takes the [typedoc](https://typedoc.org/) 's JSON output as input a
  *
  * You can also show examples by using markdown code blocks
  *
- * \`\`\`ts
+ * ```ts
  * import { sum } from "my-library";
  * sum(1, 2); // 3
- * \`\`\`
+ * ```
  *
  * @remarks
  *
@@ -142,7 +142,7 @@ This library takes the [typedoc](https://typedoc.org/) 's JSON output as input a
 export function sum(a: number, b: number) {
   return a + b;
 }
-```
+````
 
 <details>
   <summary> For the above code, you will get this output: </summary>
