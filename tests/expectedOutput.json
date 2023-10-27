@@ -1,0 +1,496 @@
+{
+  "functions": [
+    {
+      "kind": "function",
+      "name": "sum",
+      "signatures": [
+        {
+          "summary": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "This is a description of the sum function."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "This is a second paragraph in the description. Everything after this is markdown"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 1,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Heading 1"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Heading 2"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 3,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Heading 3"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 4,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Heading 4"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 5,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Heading 5"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "depth": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Heading 6"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "emphasis",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "This text will be italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": "\n"
+                },
+                {
+                  "type": "emphasis",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "This will also be italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": "\n"
+                },
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "This text will be bold"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": "\n"
+                },
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "This will also be bold"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": "\n"
+                },
+                {
+                  "type": "emphasis",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "You "
+                    },
+                    {
+                      "type": "strong",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "can"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": " combine them"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "ordered": false,
+              "start": null,
+              "spread": false,
+              "children": [
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 2a"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Item 2b"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "ordered": true,
+              "start": 1,
+              "spread": false,
+              "children": [
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "numbered item 1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "numbered item 2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "spread": false,
+                  "checked": null,
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "numbered item 3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "name": "a",
+              "type": "number",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "First number"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "b",
+              "type": "number",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Second number"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rest",
+              "type": "number[]",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Rest of the numbers"
+                    }
+                  ]
+                }
+              ],
+              "flags": {
+                "isRest": true
+              }
+            }
+          ],
+          "returns": {
+            "type": "number",
+            "summary": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The sum of all numbers"
+                  }
+                ]
+              }
+            ]
+          },
+          "blockTags": [
+            {
+              "tag": "@example",
+              "summary": [
+                {
+                  "type": "heading",
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Example"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Example can have markdown too and code blocks"
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "lang": "js",
+                  "meta": null,
+                  "value": "import { sum } from \"my-library\";"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "You can multiple examples"
+                    }
+                  ]
+                },
+                {
+                  "type": "code",
+                  "lang": "ts",
+                  "meta": null,
+                  "value": "sum(1, 2, 3, 4); // 10\nsum(1, 2); // 3"
+                }
+              ]
+            },
+            {
+              "tag": "@remarks",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "This is a remark"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "@see",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "link",
+                      "title": null,
+                      "url": "https://en.wikipedia.org/wiki/Mathematics",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "https://en.wikipedia.org/wiki/Mathematics"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "@twfeature",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "XYZ"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "@foo",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "FOO BAR"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "@deprecated",
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Use "
+                    },
+                    {
+                      "type": "inlineCode",
+                      "value": "fancySum"
+                    },
+                    {
+                      "type": "text",
+                      "value": " instead."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "https://github.com/MananTank/typedoc-gen/blob/d89b9a9/tests/code.ts#L58"
+    }
+  ]
+}
