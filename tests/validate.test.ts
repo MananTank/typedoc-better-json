@@ -1,8 +1,7 @@
-import { SomeDoc, transform } from "../src/index";
+import { SomeDoc, TransformedDoc, transform } from "../src/index";
 import { expect, test } from "vitest";
 import TypeDoc, { JSONOutput } from "typedoc";
 import { writeFile, readFile } from "node:fs/promises";
-import { TransformedDoc } from "../dist";
 
 test("validate", async () => {
   const app = await TypeDoc.Application.bootstrapWithPlugins({

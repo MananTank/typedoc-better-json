@@ -30,6 +30,20 @@ export type SomeDoc =
   | EnumDoc
   | ClassDoc;
 
+export type SubTypeDeclarationDoc = {
+  kind: "subtype";
+  name: string;
+  type: string;
+  summary?: Summary;
+};
+
+export type TypeDeclarationDoc = SubTypeDeclarationDoc | FunctionDoc;
+
+export type TypeParameter = {
+  name: string;
+  extendsType?: string;
+};
+
 export type FunctionDoc = {
   kind: "function";
   name: string;
@@ -59,11 +73,7 @@ export type FunctionSignature = {
     summary?: Summary;
   };
   blockTags?: BlockTag[];
-};
-
-export type TypeParameter = {
-  name: string;
-  extendsType?: string;
+  flags?: Flags;
 };
 
 export type FunctionParameter = {
@@ -80,6 +90,7 @@ export type InterfaceDoc = {
   summary?: Summary;
   type?: string;
   typeDeclaration?: TypeDeclarationDoc[];
+  typeParameters?: TypeParameter[];
 };
 
 export type VariableDoc = {
@@ -87,17 +98,9 @@ export type VariableDoc = {
   name: string;
   source?: string;
   summary?: Summary;
-  type?: string;
-  typeDeclaration?: VariableTypeDeclaration[];
+  typeDeclaration?: TypeDeclarationDoc[];
   flags?: JSONOutput.ReflectionFlags;
-};
-
-export type VariableTypeDeclaration = TypeDeclarationDoc | FunctionDoc;
-
-export type TypeDeclarationDoc = {
-  name: string;
-  type: string;
-  summary?: Summary;
+  type?: string;
 };
 
 export type EnumDoc = {

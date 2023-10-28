@@ -22,6 +22,8 @@ export function getFunctionDoc(
 
 function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
   const output: FunctionSignature = {
+    flags:
+      Object.keys(signature.flags).length > 0 ? signature.flags : undefined,
     summary: getSummaryDoc(signature.comment?.summary),
     parameters: signature.parameters?.map((param) => {
       const arg: FunctionParameter = {

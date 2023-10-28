@@ -23,7 +23,7 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
       } else if (typeObj.declaration.signatures) {
         return typeObj.declaration.signatures
           .map(readableFunctionSignature)
-          .join(" | ");
+          .join(" ; ");
       }
       return `{}`;
     }
@@ -162,7 +162,7 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
 }
 
 // ( (arg1: type1, arg2: type2 ) => ReturnType )
-function readableFunctionSignature(
+export function readableFunctionSignature(
   signature: JSONOutput.SignatureReflection,
 ): string {
   const parameters =

@@ -1,5 +1,5 @@
 import type { JSONOutput } from "typedoc";
-import { VariableDoc, VariableTypeDeclaration } from "../types";
+import { VariableDoc, TypeDeclarationDoc } from "../types";
 import { getReadableType } from "../utils/getReadableType";
 import { getFunctionDoc } from "./function";
 import { getSummaryDoc } from "./summary";
@@ -20,11 +20,11 @@ export function getVariableDoc(
 
 function getDeclaration(
   typeObj: JSONOutput.SomeType,
-): VariableTypeDeclaration[] | undefined {
+): TypeDeclarationDoc[] | undefined {
   if (typeObj.type === "reflection") {
     return typeObj.declaration.children?.map((child) => {
       if (child.signatures) {
-        const output: VariableTypeDeclaration = getFunctionDoc(child);
+        const output: TypeDeclarationDoc = getFunctionDoc(child);
         return output;
       }
 
@@ -34,7 +34,7 @@ function getDeclaration(
         child.type?.type === "reflection" &&
         child.type.declaration.signatures
       ) {
-        const output: VariableTypeDeclaration = getFunctionDoc(
+        const output: TypeDeclarationDoc = getFunctionDoc(
           child.type.declaration,
         );
         // fix wrong name ( this is kinda hacky )
@@ -43,7 +43,8 @@ function getDeclaration(
       }
 
       if (child.type) {
-        const output: VariableTypeDeclaration = {
+        const output: TypeDeclarationDoc = {
+          kind: "subtype",
           name: child.name,
           type: getReadableType(child.type),
           summary: getSummaryDoc(child.comment?.summary),
