@@ -26,6 +26,7 @@ export function getInterfaceDoc(
       const typeParam: TypeParameter = {
         name: param.name,
         extendsType: param.type ? getReadableType(param.type) : undefined,
+        defaultType: param.default ? getReadableType(param.default) : undefined,
       };
       return typeParam;
     }),

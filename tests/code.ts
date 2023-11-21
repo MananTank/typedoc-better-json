@@ -113,9 +113,12 @@ class Bar {}
 
 class Bar2 {}
 
-export class Foo<T extends string> extends Bar2 implements Bar {
-  get(): T {
-    return "hello" as T;
+export class Foo<T extends Record<string, unknown> = { a: number }>
+  extends Bar2
+  implements Bar
+{
+  get(foo: T) {
+    console.log(foo);
   }
 
   /**

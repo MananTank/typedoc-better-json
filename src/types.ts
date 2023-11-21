@@ -43,6 +43,7 @@ export type TypeDeclarationDoc = SubTypeDeclarationDoc | FunctionDoc;
 export type TypeParameter = {
   name: string;
   extendsType?: string;
+  defaultType?: string;
 };
 
 export type FunctionDoc = {

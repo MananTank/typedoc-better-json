@@ -688,7 +688,8 @@
             "typeParameters": [
               {
                 "name": "T",
-                "extendsType": "string"
+                "extendsType": "Record<string, unknown>",
+                "defaultType": "{ a: number }"
               }
             ]
           }
@@ -759,8 +760,14 @@
           "name": "get",
           "signatures": [
             {
+              "parameters": [
+                {
+                  "name": "foo",
+                  "type": "T"
+                }
+              ],
               "returns": {
-                "type": "T"
+                "type": "void"
               }
             }
           ],
@@ -830,7 +837,8 @@
       "typeParameters": [
         {
           "name": "T",
-          "extendsType": "string"
+          "extendsType": "Record<string, unknown>",
+          "defaultType": "{ a: number }"
         }
       ],
       "implements": ["Bar"],
