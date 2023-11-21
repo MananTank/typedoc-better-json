@@ -109,7 +109,15 @@ export const test = {
   boo: getBoo(),
 };
 
-export class Foo {
+class Bar {}
+
+class Bar2 {}
+
+export class Foo<T extends string> extends Bar2 implements Bar {
+  get(): T {
+    return "hello" as T;
+  }
+
   /**
    * Foo.boo description
    *

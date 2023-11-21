@@ -683,8 +683,14 @@
         "signatures": [
           {
             "returns": {
-              "type": "Foo"
-            }
+              "type": "Foo<T>"
+            },
+            "typeParameters": [
+              {
+                "name": "T",
+                "extendsType": "string"
+              }
+            ]
           }
         ],
         "source": "__REDACTED__"
@@ -744,6 +750,18 @@
                   ]
                 }
               ]
+            }
+          ],
+          "source": "__REDACTED__"
+        },
+        {
+          "kind": "function",
+          "name": "get",
+          "signatures": [
+            {
+              "returns": {
+                "type": "T"
+              }
             }
           ],
           "source": "__REDACTED__"
@@ -808,7 +826,15 @@
             }
           ]
         }
-      ]
+      ],
+      "typeParameters": [
+        {
+          "name": "T",
+          "extendsType": "string"
+        }
+      ],
+      "implements": ["Bar"],
+      "extends": ["Bar2"]
     }
   ]
 }

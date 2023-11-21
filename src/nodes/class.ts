@@ -84,6 +84,7 @@ export function getClassDoc(data: JSONOutput.DeclarationReflection): ClassDoc {
     }),
 
     implements: data.implementedTypes?.map((t) => getReadableType(t)),
+    extends: data.extendedTypes?.map((t) => getReadableType(t)),
   };
 
   return output;

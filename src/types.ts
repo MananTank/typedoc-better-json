@@ -132,5 +132,6 @@ export type ClassDoc = {
   summary?: Summary;
   blockTags?: BlockTag[];
   implements?: string[];
+  extends?: string[];
   typeParameters?: TypeParameter[];
 };
