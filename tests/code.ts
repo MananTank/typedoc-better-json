@@ -58,3 +58,46 @@
 export function sum(a: number, b: number, ...rest: number[]) {
   return a + b + rest.reduce((acc, val) => acc + val, 0);
 }
+
+/**
+ * Variable test
+ */
+export const test = {
+  /**
+   * Normal property
+   */
+  foo: 1,
+  /**
+   * method on variable
+   */
+  bar() {
+    return {
+      value: 10,
+    };
+  },
+  /**
+   * method with arguments
+   * @param a - first number
+   * @param b - second number
+   *
+   * @example
+   * ```ts
+   * test.bazz(1, 2); // 3
+   * ```
+   */
+  bazz(a: number, b: number) {
+    return a + b;
+  },
+  /**
+   * method with rest arguments and extra property
+   */
+  boo: (() => {
+    const xyz = function (...args: [a: number]) {
+      console.log(args);
+    };
+
+    xyz.bar = "hello";
+
+    return xyz;
+  })(),
+};

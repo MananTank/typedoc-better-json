@@ -36,11 +36,18 @@ export function getInterfaceDoc(
             return `${child.name} : ${getReadableType(child.type)}`;
           }
           if (child.signatures) {
-            return child.signatures
+            const isMulti = child.signatures.length > 1;
+            let sigCode = child.signatures
               .map((sig) => {
-                return `${sig.name} : ${readableFunctionSignature(sig)}`;
+                return readableFunctionSignature(sig, isMulti);
               })
               .join(" ; ");
+
+            if (isMulti) {
+              sigCode = `{ ${sigCode} }`;
+            }
+
+            return `${child.name} : ${sigCode}`;
           }
           throw new Error(`Unknown type declaration node ${child.name}`);
         })}}`

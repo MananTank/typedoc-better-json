@@ -1,4 +1,5 @@
-import { SomeDoc, TransformedDoc, transform } from "../src/index";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TransformedDoc, transform } from "../src/index";
 import { expect, test } from "vitest";
 import TypeDoc, { JSONOutput } from "typedoc";
 import { writeFile, readFile } from "node:fs/promises";
@@ -21,7 +22,7 @@ test("validate", async () => {
   // generate output
   const output = transform(fileData);
 
-  removeSources(output);
+  cleanup(output);
 
   // Write output to file for debugging
   const outputFile = JSON.stringify(output, null, 2);
@@ -31,29 +32,36 @@ test("validate", async () => {
   const expectedOutput = await readFile("tests/expectedOutput.json", "utf8");
   const expectedOutputData = JSON.parse(expectedOutput);
 
-  removeSources(expectedOutputData);
+  cleanup(expectedOutputData);
 
   expect(JSON.stringify(expectedOutputData, null, 2)).toBe(
     JSON.stringify(output, null, 2),
   );
 });
 
-function removeSource(doc: SomeDoc) {
-  delete doc.source;
+/**
+ * Remove meta and sources that keeps changing
+ */
+function cleanup(doc: TransformedDoc) {
+  const REDCATED = "__REDACTED__";
 
-  if (doc.kind === "class") {
-    doc.methods?.forEach(removeSource);
-    doc.properties?.forEach(removeSource);
-  }
+  doc.meta = {
+    typedocBetterJsonVersion: REDCATED,
+  };
 
-  return doc;
-}
-
-function removeSources(doc: TransformedDoc) {
-  for (const k in doc) {
-    const v = doc[k as keyof TransformedDoc];
-    if (Array.isArray(v)) {
-      v.forEach(removeSource);
+  function removeSource(obj: any) {
+    if (typeof obj === "object" && obj !== null) {
+      if ("source" in obj) {
+        obj.source = REDCATED;
+      }
+      for (const k in obj) {
+        removeSource(obj[k]);
+      }
+    }
+    if (Array.isArray(obj)) {
+      obj.forEach(removeSource);
     }
   }
+
+  removeSource(doc);
 }

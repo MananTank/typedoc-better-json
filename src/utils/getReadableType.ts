@@ -9,23 +9,53 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
 
     // { key: value } or { key: () => Bar  }
     case "reflection": {
+      let inner = "";
       if (typeObj.declaration.children) {
-        return `{ ${typeObj.declaration.children
+        inner = `${typeObj.declaration.children
           ?.map((child) => {
+            const keyName = createValidKey(child.name);
+
             if (child.type) {
-              return `${createValidKey(child.name)}: ${getReadableType(
-                child.type,
-              )}`;
+              return `${keyName}: ${getReadableType(child.type)}`;
             }
+            if (child.signatures) {
+              let sigCode = child.signatures
+                .map((sig) =>
+                  readableFunctionSignature(sig, child.signatures!.length > 1),
+                )
+                .join("; ");
+
+              if (child.signatures.length > 1) {
+                sigCode = `{ ${sigCode} }`;
+              }
+
+              return `${keyName}: ${sigCode} `;
+            }
+
             return "";
           })
-          .join(", ")} }`;
-      } else if (typeObj.declaration.signatures) {
-        return typeObj.declaration.signatures
-          .map(readableFunctionSignature)
-          .join(" ; ");
+          .join("; ")}`;
       }
-      return `{}`;
+
+      if (typeObj.declaration.signatures) {
+        const isMuli =
+          typeObj.declaration.signatures.length > 1 || inner.length > 0;
+        const sigCode = typeObj.declaration.signatures
+          .map((sig) => readableFunctionSignature(sig, isMuli))
+          .join("; ");
+
+        if (!inner) {
+          if (typeObj.declaration.signatures.length === 1) {
+            return sigCode;
+          }
+
+          return `{ ${sigCode} }`;
+        }
+
+        inner = `${sigCode} ; ${inner}`;
+      }
+
+      return `{ ${inner} }`;
     }
 
     case "reference": {
@@ -164,17 +194,16 @@ export function getReadableType(typeObj: JSONOutput.SomeType): string {
 // ( (arg1: type1, arg2: type2 ) => ReturnType )
 export function readableFunctionSignature(
   signature: JSONOutput.SignatureReflection,
+  hasMultipleSig: boolean,
 ): string {
   const parameters =
-    signature.parameters
-      ?.map((p) => (p.type ? `${p.name} : ${getReadableType(p.type)}` : p.name))
-      .join(", ") || "";
+    signature.parameters?.map(getParameterCode).join(", ") || "";
 
   const returnType = signature.type
-    ? ` => ${getReadableType(signature.type)}`
+    ? `${hasMultipleSig ? ":" : "=>"} ${getReadableType(signature.type)}`
     : "";
 
-  return `((${parameters})${returnType})`;
+  return `(${parameters}) ${returnType}`;
 }
 
 // if the key has a space or a dash, wrap it in quotes
@@ -183,4 +212,19 @@ function createValidKey(str: string) {
     return `"${str}"`;
   }
   return str;
+}
+
+function getParameterCode(parameter: JSONOutput.ParameterReflection): string {
+  const name =
+    (parameter.flags.isRest ? "..." : "") +
+    parameter.name +
+    (parameter.flags.isOptional ? "?" : "");
+
+  const defaultValue = parameter.defaultValue
+    ? ` = ${parameter.defaultValue}`
+    : "";
+
+  return `${name}: ${
+    parameter.type ? getReadableType(parameter.type) : "unknown"
+  }${defaultValue}`;
 }

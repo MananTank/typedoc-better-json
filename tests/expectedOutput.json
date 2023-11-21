@@ -1,6 +1,6 @@
 {
   "meta": {
-    "typedocBetterJsonVersion": "0.3.2"
+    "typedocBetterJsonVersion": "__REDACTED__"
   },
   "functions": [
     {
@@ -492,7 +492,171 @@
             }
           ]
         }
-      ]
+      ],
+      "source": "__REDACTED__"
+    }
+  ],
+  "variables": [
+    {
+      "kind": "variable",
+      "name": "test",
+      "summary": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Variable test"
+            }
+          ]
+        }
+      ],
+      "source": "__REDACTED__",
+      "type": "{ boo: { (...args: [a: number]) : void ; bar: string }; foo: number; bar: () => { value: number } ; bazz: (a: number, b: number) => number  }",
+      "typeDeclaration": [
+        {
+          "kind": "function",
+          "name": "boo",
+          "signatures": [
+            {
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "method with rest arguments and extra property"
+                    }
+                  ]
+                }
+              ],
+              "parameters": [
+                {
+                  "name": "args",
+                  "type": "[a: number]",
+                  "flags": {
+                    "isRest": true
+                  }
+                }
+              ],
+              "returns": {
+                "type": "void"
+              }
+            }
+          ],
+          "source": "__REDACTED__"
+        },
+        {
+          "kind": "subtype",
+          "name": "foo",
+          "type": "number",
+          "summary": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Normal property"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "bar",
+          "signatures": [
+            {
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "method on variable"
+                    }
+                  ]
+                }
+              ],
+              "returns": {
+                "type": "{ value: number }"
+              }
+            }
+          ],
+          "source": "__REDACTED__"
+        },
+        {
+          "kind": "function",
+          "name": "bazz",
+          "signatures": [
+            {
+              "summary": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "method with arguments"
+                    }
+                  ]
+                }
+              ],
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": "number",
+                  "summary": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "first number"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "b",
+                  "type": "number",
+                  "summary": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "second number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "returns": {
+                "type": "number"
+              },
+              "blockTags": [
+                {
+                  "tag": "@example",
+                  "summary": [
+                    {
+                      "type": "code",
+                      "lang": "ts",
+                      "meta": null,
+                      "value": "test.bazz(1, 2); // 3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "source": "__REDACTED__"
+        }
+      ],
+      "flags": {
+        "isConst": true
+      }
     }
   ]
 }
