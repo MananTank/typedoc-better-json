@@ -11,6 +11,7 @@ import {
 } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
 import { getFunctionDoc } from "./function";
+import { getBlockTag } from "./blockTag";
 
 export function getInterfaceDoc(
   data: JSONOutput.DeclarationReflection,
@@ -19,6 +20,7 @@ export function getInterfaceDoc(
     kind: "type",
     name: data.name,
     summary: getSummaryDoc(data.comment?.summary),
+    blockTags: data.comment?.blockTags?.map(getBlockTag),
     source: data.sources?.[0]?.url,
     typeParameters: data.typeParameters?.map((param) => {
       const typeParam: TypeParameter = {
@@ -79,6 +81,7 @@ function getDeclaration(
           name: child.name,
           type: getReadableType(child.type),
           summary: getSummaryDoc(child.comment?.summary),
+          blockTags: child.comment?.blockTags?.map(getBlockTag),
         };
 
         return output;

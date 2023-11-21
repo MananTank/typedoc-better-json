@@ -35,6 +35,7 @@ export type SubTypeDeclarationDoc = {
   name: string;
   type: string;
   summary?: Summary;
+  blockTags?: BlockTag[];
 };
 
 export type TypeDeclarationDoc = SubTypeDeclarationDoc | FunctionDoc;
@@ -80,6 +81,7 @@ export type FunctionParameter = {
   name: string;
   type?: string;
   summary?: Summary;
+  blockTags?: BlockTag[];
   flags?: Flags;
 };
 
@@ -88,6 +90,7 @@ export type InterfaceDoc = {
   name: string;
   source?: string;
   summary?: Summary;
+  blockTags?: BlockTag[];
   type?: string;
   typeDeclaration?: TypeDeclarationDoc[];
   typeParameters?: TypeParameter[];
@@ -98,6 +101,7 @@ export type VariableDoc = {
   name: string;
   source?: string;
   summary?: Summary;
+  blockTags?: BlockTag[];
   typeDeclaration?: TypeDeclarationDoc[];
   flags?: JSONOutput.ReflectionFlags;
   type?: string;
@@ -108,10 +112,12 @@ export type EnumDoc = {
   name: string;
   source?: string;
   summary?: Summary;
+  blockTags?: BlockTag[];
   members: Array<{
     name: string;
     value: string;
     summary?: Summary;
+    blockTags?: BlockTag[];
   }>;
 };
 

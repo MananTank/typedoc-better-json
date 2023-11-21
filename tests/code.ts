@@ -59,6 +59,16 @@ export function sum(a: number, b: number, ...rest: number[]) {
   return a + b + rest.reduce((acc, val) => acc + val, 0);
 }
 
+const getBoo = () => {
+  const xyz = function (...args: [a: number]) {
+    console.log(args);
+  };
+
+  xyz.bar = "hello";
+
+  return xyz;
+};
+
 /**
  * Variable test
  */
@@ -90,14 +100,34 @@ export const test = {
   },
   /**
    * method with rest arguments and extra property
+   *
+   * @example
+   * ```ts
+   * console.log('hello')
+   * ```
    */
-  boo: (() => {
-    const xyz = function (...args: [a: number]) {
-      console.log(args);
-    };
-
-    xyz.bar = "hello";
-
-    return xyz;
-  })(),
+  boo: getBoo(),
 };
+
+export class Foo {
+  /**
+   * Foo.boo description
+   *
+   * @example
+   * ```ts
+   * console.log('Foo.boo example')
+   * ```
+   */
+  boo = getBoo();
+
+  /**
+   *
+   * @param a - first number
+   * @param b - second number
+   * @example
+   * ```ts
+   * Foo.bazz(1, 2); // 3
+   * ```
+   */
+  bazz = (a: number, b: number) => a + b;
+}

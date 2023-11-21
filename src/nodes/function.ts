@@ -31,6 +31,7 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
         type: param.type ? getReadableType(param.type) : undefined,
         summary: getSummaryDoc(param.comment?.summary),
         flags: Object.keys(param.flags).length > 0 ? param.flags : undefined,
+        blockTags: param.comment?.blockTags?.map(getBlockTag),
       };
       return arg;
     }),

@@ -2,6 +2,7 @@ import type { JSONOutput } from "typedoc";
 import { EnumDoc } from "../types";
 import { getReadableType } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
+import { getBlockTag } from "./blockTag";
 
 export function getEnumDoc(data: JSONOutput.DeclarationReflection): EnumDoc {
   return {
@@ -10,6 +11,7 @@ export function getEnumDoc(data: JSONOutput.DeclarationReflection): EnumDoc {
     summary: getSummaryDoc(data.comment?.summary),
     source: data.sources?.[0]?.url,
     members: getMembers(data),
+    blockTags: data.comment?.blockTags?.map(getBlockTag),
   };
 }
 
@@ -26,6 +28,7 @@ function getMembers(data: JSONOutput.DeclarationReflection) {
       name: child.name,
       value: getReadableType(child.type),
       summary: getSummaryDoc(child.comment?.summary),
+      blockTags: child.comment?.blockTags?.map(getBlockTag),
     };
   });
 

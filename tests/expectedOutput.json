@@ -541,7 +541,20 @@
               ],
               "returns": {
                 "type": "void"
-              }
+              },
+              "blockTags": [
+                {
+                  "tag": "@example",
+                  "summary": [
+                    {
+                      "type": "code",
+                      "lang": "ts",
+                      "meta": null,
+                      "value": "console.log('hello')"
+                    }
+                  ]
+                }
+              ]
             }
           ],
           "source": "__REDACTED__"
@@ -657,6 +670,145 @@
       "flags": {
         "isConst": true
       }
+    }
+  ],
+  "classes": [
+    {
+      "kind": "class",
+      "name": "Foo",
+      "source": "__REDACTED__",
+      "constructor": {
+        "kind": "function",
+        "name": "constructor",
+        "signatures": [
+          {
+            "returns": {
+              "type": "Foo"
+            }
+          }
+        ],
+        "source": "__REDACTED__"
+      },
+      "methods": [
+        {
+          "kind": "function",
+          "name": "bazz",
+          "signatures": [
+            {
+              "summary": [],
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": "number",
+                  "summary": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "first number"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "b",
+                  "type": "number",
+                  "summary": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "second number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "returns": {
+                "type": "number"
+              },
+              "blockTags": [
+                {
+                  "tag": "@example",
+                  "summary": [
+                    {
+                      "type": "code",
+                      "lang": "ts",
+                      "meta": null,
+                      "value": "Foo.bazz(1, 2); // 3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "source": "__REDACTED__"
+        }
+      ],
+      "properties": [
+        {
+          "kind": "variable",
+          "name": "boo",
+          "source": "__REDACTED__",
+          "type": "{ (...args: [a: number]) : void ; bar: string }",
+          "typeDeclaration": [
+            {
+              "kind": "function",
+              "name": "boo",
+              "signatures": [
+                {
+                  "summary": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "Foo.boo description"
+                        }
+                      ]
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "name": "args",
+                      "type": "[a: number]",
+                      "flags": {
+                        "isRest": true
+                      }
+                    }
+                  ],
+                  "returns": {
+                    "type": "void"
+                  },
+                  "blockTags": [
+                    {
+                      "tag": "@example",
+                      "summary": [
+                        {
+                          "type": "code",
+                          "lang": "ts",
+                          "meta": null,
+                          "value": "console.log('Foo.boo example')"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "source": "__REDACTED__"
+            },
+            {
+              "kind": "subtype",
+              "name": "bar",
+              "type": "string"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
