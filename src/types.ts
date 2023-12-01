@@ -95,6 +95,8 @@ export type InterfaceDoc = {
   type?: string;
   typeDeclaration?: TypeDeclarationDoc[];
   typeParameters?: TypeParameter[];
+  extends?: string[];
+  implements?: string[];
 };
 
 export type VariableDoc = {

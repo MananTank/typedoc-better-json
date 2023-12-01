@@ -30,6 +30,8 @@ export function getInterfaceDoc(
       };
       return typeParam;
     }),
+    extends: data.extendedTypes?.map((t) => getReadableType(t)),
+    implements: data.implementedTypes?.map((t) => getReadableType(t)),
     // could be a type, could be children array -> object
     type: data.type
       ? getReadableType(data.type)
