@@ -31,7 +31,6 @@ export function getInterfaceDoc(
       return typeParam;
     }),
     extends: data.extendedTypes?.map((t) => getReadableType(t)),
-    implements: data.implementedTypes?.map((t) => getReadableType(t)),
     // could be a type, could be children array -> object
     type: data.type
       ? getReadableType(data.type)
@@ -76,6 +75,20 @@ function getDeclaration(
     return children.map((child) => {
       if (child.signatures) {
         return getFunctionDoc(child);
+      }
+
+      // when property is a assigned arrow function
+      // Example: { bar: (a: number) => a + 2 }
+      if (
+        child.type?.type === "reflection" &&
+        child.type.declaration.signatures
+      ) {
+        const output: TypeDeclarationDoc = getFunctionDoc(
+          child.type.declaration,
+        );
+        // fix wrong name ( this is kinda hacky )
+        output.name = child.name;
+        return output;
       }
 
       if (child.type) {
