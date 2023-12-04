@@ -23,6 +23,16 @@ export type TransformedDoc = {
   classes?: ClassDoc[];
 };
 
+export type TokenInfo = {
+  name: string;
+  package?: string;
+};
+
+export type TypeInfo = {
+  code: string;
+  tokens?: TokenInfo[];
+};
+
 export type SomeDoc =
   | FunctionDoc
   | InterfaceDoc
@@ -33,7 +43,7 @@ export type SomeDoc =
 export type SubTypeDeclarationDoc = {
   kind: "subtype";
   name: string;
-  type: string;
+  type: TypeInfo;
   summary?: Summary;
   blockTags?: BlockTag[];
 };
@@ -42,8 +52,8 @@ export type TypeDeclarationDoc = SubTypeDeclarationDoc | FunctionDoc;
 
 export type TypeParameter = {
   name: string;
-  extendsType?: string;
-  defaultType?: string;
+  extendsType?: TypeInfo;
+  defaultType?: TypeInfo;
 };
 
 export type FunctionDoc = {
@@ -60,7 +70,7 @@ export type AccessorDoc = {
   summary?: Summary;
   blockTags?: BlockTag[];
   returns?: {
-    type?: string;
+    type?: TypeInfo;
     summary?: Summary;
   };
   flags?: Flags;
@@ -71,7 +81,7 @@ export type FunctionSignature = {
   parameters?: FunctionParameter[];
   typeParameters?: TypeParameter[];
   returns?: {
-    type?: string;
+    type?: TypeInfo;
     summary?: Summary;
   };
   blockTags?: BlockTag[];
@@ -80,7 +90,7 @@ export type FunctionSignature = {
 
 export type FunctionParameter = {
   name: string;
-  type?: string;
+  type?: TypeInfo;
   summary?: Summary;
   blockTags?: BlockTag[];
   flags?: Flags;
@@ -92,11 +102,11 @@ export type InterfaceDoc = {
   source?: string;
   summary?: Summary;
   blockTags?: BlockTag[];
-  type?: string;
+  type?: TypeInfo;
   typeDeclaration?: TypeDeclarationDoc[];
   typeParameters?: TypeParameter[];
-  extends?: string[];
-  implements?: string[];
+  extends?: TypeInfo[];
+  implements?: TypeInfo[];
 };
 
 export type VariableDoc = {
@@ -107,7 +117,7 @@ export type VariableDoc = {
   blockTags?: BlockTag[];
   typeDeclaration?: TypeDeclarationDoc[];
   flags?: JSONOutput.ReflectionFlags;
-  type?: string;
+  type?: TypeInfo;
 };
 
 export type EnumDoc = {
@@ -118,7 +128,7 @@ export type EnumDoc = {
   blockTags?: BlockTag[];
   members: Array<{
     name: string;
-    value: string;
+    value: TypeInfo;
     summary?: Summary;
     blockTags?: BlockTag[];
   }>;
@@ -134,7 +144,7 @@ export type ClassDoc = {
   accessors?: AccessorDoc[];
   summary?: Summary;
   blockTags?: BlockTag[];
-  implements?: string[];
-  extends?: string[];
+  implements?: TypeInfo[];
+  extends?: TypeInfo[];
   typeParameters?: TypeParameter[];
 };

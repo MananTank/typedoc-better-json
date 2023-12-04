@@ -1,6 +1,6 @@
 {
   "name": "typedoc-better-json",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Transforms typedoc's json output to a format that is better for creating custom documentation website",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
@@ -34,10 +34,12 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@types/node": "^20.8.8",
+    "@types/react": "^18.2.41",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "eslint": "^8.52.0",
     "prettier": "^3.0.3",
+    "react": "^18.2.0",
     "ts-node": "^10.9.1",
     "tsup": "^6.7.0",
     "typescript": "^5.2.2",

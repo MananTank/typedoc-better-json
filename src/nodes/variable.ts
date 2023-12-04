@@ -1,6 +1,6 @@
 import type { JSONOutput } from "typedoc";
 import { VariableDoc, TypeDeclarationDoc } from "../types";
-import { getReadableType } from "../utils/getReadableType";
+import { getTypeInfo } from "../utils/getReadableType";
 import { getFunctionDoc } from "./function";
 import { getSummaryDoc } from "./summary";
 import { getBlockTag } from "./blockTag";
@@ -13,7 +13,7 @@ export function getVariableDoc(
     name: data.name,
     summary: getSummaryDoc(data.comment?.summary),
     source: data.sources?.[0]?.url,
-    type: data.type ? getReadableType(data.type) : undefined,
+    type: data.type ? getTypeInfo(data.type) : undefined,
     typeDeclaration: data.type
       ? getDeclaration(data.type, data.name)
       : undefined,
@@ -61,7 +61,7 @@ function getDeclaration(
           const output: TypeDeclarationDoc = {
             kind: "subtype",
             name: child.name,
-            type: getReadableType(child.type),
+            type: getTypeInfo(child.type),
             summary: getSummaryDoc(child.comment?.summary),
             blockTags: child.comment?.blockTags?.map(getBlockTag),
           };

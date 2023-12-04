@@ -1,6 +1,6 @@
 import type { JSONOutput } from "typedoc";
 import { AccessorDoc } from "../types";
-import { getReadableType } from "../utils/getReadableType";
+import { getTypeInfo } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
 import { getBlockTag } from "./blockTag";
 
@@ -15,7 +15,7 @@ export function getAccessorDoc(
     returns: data.getSignature
       ? {
           type: data.getSignature.type
-            ? getReadableType(data.getSignature.type)
+            ? getTypeInfo(data.getSignature.type)
             : undefined,
           summary: getSummaryDoc(
             data.getSignature.comment?.blockTags?.find(

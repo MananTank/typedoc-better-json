@@ -5,7 +5,7 @@ import {
   FunctionParameter,
   TypeParameter,
 } from "../types";
-import { getReadableType } from "../utils/getReadableType";
+import { getTypeInfo } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
 import { getBlockTag } from "./blockTag";
 
@@ -28,7 +28,7 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
     parameters: signature.parameters?.map((param) => {
       const arg: FunctionParameter = {
         name: param.name,
-        type: param.type ? getReadableType(param.type) : undefined,
+        type: param.type ? getTypeInfo(param.type) : undefined,
         summary: getSummaryDoc(param.comment?.summary),
         flags: Object.keys(param.flags).length > 0 ? param.flags : undefined,
         blockTags: param.comment?.blockTags?.map(getBlockTag),
@@ -36,7 +36,7 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
       return arg;
     }),
     returns: {
-      type: signature.type ? getReadableType(signature.type) : undefined,
+      type: signature.type ? getTypeInfo(signature.type) : undefined,
       summary: getSummaryDoc(
         signature.comment?.blockTags?.find((tag) => tag.tag === "@returns")
           ?.content,
@@ -45,8 +45,8 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
     typeParameters: signature.typeParameter?.map((param) => {
       const typeParam: TypeParameter = {
         name: param.name,
-        extendsType: param.type ? getReadableType(param.type) : undefined,
-        defaultType: param.default ? getReadableType(param.default) : undefined,
+        extendsType: param.type ? getTypeInfo(param.type) : undefined,
+        defaultType: param.default ? getTypeInfo(param.default) : undefined,
       };
       return typeParam;
     }),

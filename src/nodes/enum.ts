@@ -1,6 +1,6 @@
 import type { JSONOutput } from "typedoc";
 import { EnumDoc } from "../types";
-import { getReadableType } from "../utils/getReadableType";
+import { getTypeInfo } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
 import { getBlockTag } from "./blockTag";
 
@@ -26,7 +26,7 @@ function getMembers(data: JSONOutput.DeclarationReflection) {
     }
     return {
       name: child.name,
-      value: getReadableType(child.type),
+      value: getTypeInfo(child.type),
       summary: getSummaryDoc(child.comment?.summary),
       blockTags: child.comment?.blockTags?.map(getBlockTag),
     };

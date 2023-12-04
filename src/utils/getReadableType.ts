@@ -1,209 +1,308 @@
 import type { JSONOutput } from "typedoc";
+import { TokenInfo, TypeInfo } from "../types";
 
-export function getReadableType(typeObj: JSONOutput.SomeType): string {
-  switch (typeObj.type) {
-    // string, number, boolean, etc
-    case "intrinsic": {
-      return typeObj.name;
+export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
+  const tokens: TokenInfo[] = [];
+
+  const collectTokens = (typeInfo?: TypeInfo) => {
+    if (typeInfo?.tokens) {
+      tokens.push(...typeInfo.tokens);
     }
+  };
 
-    // { key: value } or { key: () => Bar  }
-    case "reflection": {
-      let inner = "";
-      if (typeObj.declaration.children) {
-        inner = `${typeObj.declaration.children
-          ?.map((child) => {
-            const keyName = createValidKey(child.name);
+  function getCode(): string {
+    switch (typeObj.type) {
+      // string, number, boolean, etc
+      case "intrinsic": {
+        return typeObj.name;
+      }
 
-            if (child.type) {
-              return `${keyName}: ${getReadableType(child.type)}`;
-            }
-            if (child.signatures) {
-              let sigCode = child.signatures
-                .map((sig) =>
-                  readableFunctionSignature(sig, child.signatures!.length > 1),
-                )
-                .join("; ");
+      // { key: value } or { key: () => Bar  }
+      case "reflection": {
+        let inner = "";
+        if (typeObj.declaration.children) {
+          inner = `${typeObj.declaration.children
+            ?.map((child) => {
+              const keyName = createValidKey(child.name);
 
-              if (child.signatures.length > 1) {
-                sigCode = `{ ${sigCode} }`;
+              if (child.type) {
+                const typeInfo = getTypeInfo(child.type);
+                collectTokens(typeInfo);
+                return `${keyName}: ${typeInfo.code}`;
               }
 
-              return `${keyName}: ${sigCode} `;
-            }
+              if (child.signatures) {
+                const typeInfo = child.signatures.map((sig) =>
+                  getFunctionSignatureTypeInfo(
+                    sig,
+                    child.signatures!.length > 1,
+                  ),
+                );
 
-            return "";
-          })
-          .join("; ")}`;
-      }
+                typeInfo.forEach(collectTokens);
 
-      if (typeObj.declaration.signatures) {
-        const isMuli =
-          typeObj.declaration.signatures.length > 1 || inner.length > 0;
-        const sigCode = typeObj.declaration.signatures
-          .map((sig) => readableFunctionSignature(sig, isMuli))
-          .join("; ");
+                let sigCode = typeInfo.map((s) => s.code).join("; ");
+                if (child.signatures.length > 1) {
+                  sigCode = `{ ${sigCode} }`;
+                }
 
-        if (!inner) {
-          if (typeObj.declaration.signatures.length === 1) {
-            return sigCode;
-          }
+                return `${keyName}: ${sigCode} `;
+              }
 
-          return `{ ${sigCode} }`;
+              return "";
+            })
+            .join("; ")}`;
         }
 
-        inner = `${sigCode} ; ${inner}`;
+        if (typeObj.declaration.signatures) {
+          const isMuli =
+            typeObj.declaration.signatures.length > 1 || inner.length > 0;
+          const typeInfo = typeObj.declaration.signatures.map((sig) =>
+            getFunctionSignatureTypeInfo(sig, isMuli),
+          );
+
+          typeInfo.forEach(collectTokens);
+
+          const sigCode = typeInfo.map((s) => s.code).join("; ");
+
+          if (!inner) {
+            if (typeObj.declaration.signatures.length === 1) {
+              return sigCode;
+            }
+
+            return `{ ${sigCode} }`;
+          }
+
+          inner = `${sigCode} ; ${inner}`;
+        }
+
+        return `{ ${inner} }`;
       }
 
-      return `{ ${inner} }`;
-    }
+      case "reference": {
+        // SomeGeneric<T>
+        if (typeObj.typeArguments) {
+          const typeInfos = typeObj.typeArguments.map(getTypeInfo);
+          typeInfos.forEach(collectTokens);
+          return `${typeObj.name}<${typeInfos.map((t) => t.code).join(", ")}>`;
+        }
 
-    case "reference": {
-      // SomeGeneric<T>
-      if (typeObj.typeArguments) {
-        return `${typeObj.name}<${typeObj.typeArguments
-          .map(getReadableType)
-          .join(", ")}>`;
+        tokens.push({
+          name: typeObj.name,
+          package: typeObj.package,
+        });
+
+        return typeObj.name;
       }
 
-      return typeObj.name;
-    }
-
-    // (T) | (U) | (V) ...
-    case "union": {
-      return typeObj.types.map((t) => `(${getReadableType(t)})`).join(" | ");
-    }
-
-    // null, undefined, "hello", 12 etc
-    case "literal": {
-      if (typeof typeObj.value === "string") {
-        return `"${typeObj.value}"`;
+      // (T) | (U) | (V) ...
+      case "union": {
+        return typeObj.types
+          .map((t) => {
+            const typeInfo = getTypeInfo(t);
+            collectTokens(typeInfo);
+            return `(${typeInfo.code})`;
+          })
+          .join(" | ");
       }
 
-      return typeObj.value + "";
-    }
+      // null, undefined, "hello", 12 etc
+      case "literal": {
+        if (typeof typeObj.value === "string") {
+          return `"${typeObj.value}"`;
+        }
 
-    // Foo[]
-    case "array": {
-      const type = getReadableType(typeObj.elementType);
-
-      // larger types should be Array<SomeType> so that the type it is more readable
-      if (type.length > 50) {
-        return `Array<${type}>`;
+        return typeObj.value + "";
       }
-      return `${type}[]`;
-    }
 
-    // Foo extends Bar ? Baz : Qux
-    case "conditional": {
-      return `${getReadableType(typeObj.checkType)} extends ${getReadableType(
-        typeObj.extendsType,
-      )} ? ${getReadableType(typeObj.trueType)} : ${getReadableType(
-        typeObj.falseType,
-      )}`;
-    }
+      // Foo[]
+      case "array": {
+        const typeInfo = getTypeInfo(typeObj.elementType);
+        collectTokens(typeInfo);
 
-    // Foo[Bar]
-    case "indexedAccess": {
-      return `${getReadableType(typeObj.objectType)}[${getReadableType(
-        typeObj.indexType,
-      )}]`;
-    }
-
-    // (T) & (U) & (V) ...
-    case "intersection": {
-      return typeObj.types.map((t) => `${getReadableType(t)}`).join(" & ");
-    }
-
-    // { [Foo in Bar]: Baz }
-    case "mapped": {
-      return `{[${typeObj.parameter} in ${getReadableType(
-        typeObj.parameterType,
-      )}] : ${getReadableType(typeObj.templateType)}}`;
-    }
-
-    // [A, B, C, ..]
-    case "tuple": {
-      if (typeObj.elements) {
-        return `[${typeObj.elements.map(getReadableType).join(", ")}]`;
+        // larger types should be Array<SomeType> so that the type it is more readable
+        if (typeInfo.code.length > 50) {
+          return `Array<${typeInfo.code}>`;
+        }
+        return `${typeInfo.code}[]`;
       }
-      return `[]`;
-    }
 
-    // typeof Foo
-    case "query": {
-      return `typeof ${getReadableType(typeObj.queryType)}`;
-    }
+      // Foo extends Bar ? Baz : Qux
+      case "conditional": {
+        const checktypeInfo = getTypeInfo(typeObj.checkType);
+        const extendstypeInfo = getTypeInfo(typeObj.extendsType);
+        const truetypeInfo = getTypeInfo(typeObj.trueType);
+        const falsetypeInfo = getTypeInfo(typeObj.falseType);
 
-    // (keyof" | "unique" | "readonly") Foo
-    case "typeOperator": {
-      return `${typeObj.operator} ${getReadableType(typeObj.target)}`;
-    }
+        collectTokens(checktypeInfo);
+        collectTokens(extendstypeInfo);
+        collectTokens(truetypeInfo);
+        collectTokens(falsetypeInfo);
 
-    // `xxx${Foo}yyy`
-    case "templateLiteral": {
-      return (
-        "`" +
-        typeObj.head +
-        typeObj.tail
-          .map((t) => `\${${getReadableType(t[0])}}` + t[1])
-          .join("") +
-        "`"
-      );
-    }
-
-    // infer Foo
-    case "inferred": {
-      return `infer ${typeObj.name}`;
-    }
-
-    // ...(Foo)
-    case "rest": {
-      return `...(${getReadableType(typeObj.elementType)})`;
-    }
-
-    case "unknown": {
-      return typeObj.name;
-    }
-
-    // Foo is (Bar)
-    case "predicate": {
-      if (typeObj.targetType) {
-        return `${typeObj.name} is (${getReadableType(typeObj.targetType)})`;
+        return `${checktypeInfo.code} extends ${extendstypeInfo.code} ? ${truetypeInfo.code} : ${falsetypeInfo.code}`;
       }
-      throw new Error("Failed to get readable type of type 'predicate' ");
-    }
 
-    // foo: Foo
-    case "namedTupleMember": {
-      return `${typeObj.name}: ${getReadableType(typeObj.element)}`;
-    }
+      // Foo[Bar]
+      case "indexedAccess": {
+        const ObjtypeInfo = getTypeInfo(typeObj.objectType);
+        const ValuetypeInfo = getTypeInfo(typeObj.indexType);
 
-    // Foo?
-    case "optional": {
-      return `${getReadableType(typeObj.elementType)}?`;
-    }
+        collectTokens(ObjtypeInfo);
+        collectTokens(ValuetypeInfo);
 
-    default: {
-      // this should never happen
-      throw new Error("Failed to create a readable type for type");
+        return `${ObjtypeInfo.code}[${ValuetypeInfo.code}]`;
+      }
+
+      // (T) & (U) & (V) ...
+      case "intersection": {
+        return typeObj.types
+          .map((t) => {
+            const typeInfo = getTypeInfo(t);
+            collectTokens(typeInfo);
+            return `${typeInfo.code}`;
+          })
+          .join(" & ");
+      }
+
+      // { [Foo in Bar]: Baz }
+      case "mapped": {
+        const typeInfo = getTypeInfo(typeObj.parameterType);
+        const templatetypeInfo = getTypeInfo(typeObj.templateType);
+
+        collectTokens(typeInfo);
+        collectTokens(templatetypeInfo);
+
+        return `{[${typeObj.parameter} in ${typeInfo.code}] : ${templatetypeInfo.code}}`;
+      }
+
+      // [A, B, C, ..]
+      case "tuple": {
+        if (typeObj.elements) {
+          return `[${typeObj.elements
+            .map((el) => {
+              const typeInfo = getTypeInfo(el);
+              collectTokens(typeInfo);
+              return typeInfo.code;
+            })
+            .join(", ")}]`;
+        }
+
+        return `[]`;
+      }
+
+      // typeof Foo
+      case "query": {
+        const typeInfo = getTypeInfo(typeObj.queryType);
+        collectTokens(typeInfo);
+
+        return `typeof ${typeInfo.code}`;
+      }
+
+      // (keyof" | "unique" | "readonly") Foo
+      case "typeOperator": {
+        const typeInfo = getTypeInfo(typeObj.target);
+        collectTokens(typeInfo);
+        return `${typeObj.operator} ${typeInfo.code}`;
+      }
+
+      // `xxx${Foo}yyy`
+      case "templateLiteral": {
+        return (
+          "`" +
+          typeObj.head +
+          typeObj.tail
+            .map((t) => {
+              const typeInfo = getTypeInfo(t[0]);
+              collectTokens(typeInfo);
+              return `\${${typeInfo.code}}` + t[1];
+            })
+            .join("") +
+          "`"
+        );
+      }
+
+      // infer Foo
+      case "inferred": {
+        tokens.push({
+          name: typeObj.name,
+        });
+
+        return `infer ${typeObj.name}`;
+      }
+
+      // ...(Foo)
+      case "rest": {
+        const typeInfo = getTypeInfo(typeObj.elementType);
+        collectTokens(typeInfo);
+        return `...(${typeInfo.code})`;
+      }
+
+      case "unknown": {
+        return typeObj.name;
+      }
+
+      // Foo is (Bar)
+      case "predicate": {
+        if (typeObj.targetType) {
+          const typeInfo = getTypeInfo(typeObj.targetType);
+          collectTokens(typeInfo);
+          return `${typeObj.name} is (${typeInfo.code})`;
+        }
+        throw new Error("Failed to get readable type of type 'predicate' ");
+      }
+
+      // foo: Foo
+      case "namedTupleMember": {
+        const typeInfo = getTypeInfo(typeObj.element);
+        collectTokens(typeInfo);
+        return `${typeObj.name}: ${typeInfo.code}`;
+      }
+
+      // Foo?
+      case "optional": {
+        const typeInfo = getTypeInfo(typeObj.elementType);
+        collectTokens(typeInfo);
+        return `${typeInfo.code}?`;
+      }
+
+      default: {
+        // this should never happen
+        throw new Error("Failed to create a readable type for type");
+      }
     }
   }
+
+  return {
+    code: getCode(),
+    tokens,
+  };
 }
 
 // ( (arg1: type1, arg2: type2 ) => ReturnType )
-export function readableFunctionSignature(
+export function getFunctionSignatureTypeInfo(
   signature: JSONOutput.SignatureReflection,
   hasMultipleSig: boolean,
-): string {
-  const parameters =
-    signature.parameters?.map(getParameterCode).join(", ") || "";
+): TypeInfo {
+  const tokens: TokenInfo[] = [];
 
-  const returnType = signature.type
-    ? `${hasMultipleSig ? ":" : "=>"} ${getReadableType(signature.type)}`
+  const paramsTypeInfos = signature.parameters?.map(getParameterCode);
+  paramsTypeInfos?.forEach((t) => t.tokens?.forEach((r) => tokens.push(r)));
+
+  const returntypeInfo = signature.type
+    ? getTypeInfo(signature.type)
+    : undefined;
+  returntypeInfo?.tokens?.forEach((r) => tokens.push(r));
+
+  const parameters = paramsTypeInfos?.map((p) => p.code).join(", ") || "";
+
+  const returnType = returntypeInfo
+    ? `${hasMultipleSig ? ":" : "=>"} ${returntypeInfo.code}`
     : "";
 
-  return `(${parameters}) ${returnType}`;
+  return {
+    code: `(${parameters}) ${returnType}`,
+    tokens,
+  };
 }
 
 // if the key has a space or a dash, wrap it in quotes
@@ -214,7 +313,7 @@ function createValidKey(str: string) {
   return str;
 }
 
-function getParameterCode(parameter: JSONOutput.ParameterReflection): string {
+function getParameterCode(parameter: JSONOutput.ParameterReflection): TypeInfo {
   const name =
     (parameter.flags.isRest ? "..." : "") +
     parameter.name +
@@ -224,7 +323,9 @@ function getParameterCode(parameter: JSONOutput.ParameterReflection): string {
     ? ` = ${parameter.defaultValue}`
     : "";
 
-  return `${name}: ${
-    parameter.type ? getReadableType(parameter.type) : "unknown"
-  }${defaultValue}`;
+  const typeInfo = parameter.type ? getTypeInfo(parameter.type) : undefined;
+  return {
+    code: `${name}: ${typeInfo?.code || "unknown"}${defaultValue}`,
+    tokens: typeInfo?.tokens,
+  };
 }

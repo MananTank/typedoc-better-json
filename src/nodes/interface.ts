@@ -2,12 +2,14 @@ import type { JSONOutput } from "typedoc";
 import {
   InterfaceDoc,
   SubTypeDeclarationDoc,
+  TokenInfo,
   TypeDeclarationDoc,
+  TypeInfo,
   TypeParameter,
 } from "../types";
 import {
-  getReadableType,
-  readableFunctionSignature,
+  getTypeInfo,
+  getFunctionSignatureTypeInfo,
 } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
 import { getFunctionDoc } from "./function";
@@ -16,6 +18,47 @@ import { getBlockTag } from "./blockTag";
 export function getInterfaceDoc(
   data: JSONOutput.DeclarationReflection,
 ): InterfaceDoc {
+  function getType(): TypeInfo | undefined {
+    if (data.type) {
+      return getTypeInfo(data.type);
+    }
+
+    if (data.children) {
+      const tokens: TokenInfo[] = [];
+
+      const code = `{${data.children.map((child) => {
+        if (child.type) {
+          const typeInfo = getTypeInfo(child.type);
+          typeInfo.tokens?.forEach((r) => tokens.push(r));
+
+          return `${child.name} : ${typeInfo.code}`;
+        }
+
+        if (child.signatures) {
+          const isMulti = child.signatures.length > 1;
+          let sigCode = child.signatures
+            .map((sig) => {
+              const fRef = getFunctionSignatureTypeInfo(sig, isMulti);
+              fRef.tokens?.forEach((r) => tokens.push(r));
+              return fRef.code;
+            })
+            .join(" ; ");
+
+          if (isMulti) {
+            sigCode = `{ ${sigCode} }`;
+          }
+
+          return `${child.name} : ${sigCode}`;
+        }
+        throw new Error(`Unknown type declaration node ${child.name}`);
+      })}}`;
+
+      return {
+        code,
+      };
+    }
+  }
+
   return {
     kind: "type",
     name: data.name,
@@ -25,37 +68,13 @@ export function getInterfaceDoc(
     typeParameters: data.typeParameters?.map((param) => {
       const typeParam: TypeParameter = {
         name: param.name,
-        extendsType: param.type ? getReadableType(param.type) : undefined,
-        defaultType: param.default ? getReadableType(param.default) : undefined,
+        extendsType: param.type ? getTypeInfo(param.type) : undefined,
+        defaultType: param.default ? getTypeInfo(param.default) : undefined,
       };
       return typeParam;
     }),
-    extends: data.extendedTypes?.map((t) => getReadableType(t)),
-    // could be a type, could be children array -> object
-    type: data.type
-      ? getReadableType(data.type)
-      : data.children
-      ? `{${data.children.map((child) => {
-          if (child.type) {
-            return `${child.name} : ${getReadableType(child.type)}`;
-          }
-          if (child.signatures) {
-            const isMulti = child.signatures.length > 1;
-            let sigCode = child.signatures
-              .map((sig) => {
-                return readableFunctionSignature(sig, isMulti);
-              })
-              .join(" ; ");
-
-            if (isMulti) {
-              sigCode = `{ ${sigCode} }`;
-            }
-
-            return `${child.name} : ${sigCode}`;
-          }
-          throw new Error(`Unknown type declaration node ${child.name}`);
-        })}}`
-      : undefined,
+    extends: data.extendedTypes?.map((t) => getTypeInfo(t)),
+    type: getType(),
     typeDeclaration: getDeclaration(data),
   };
 }
@@ -95,7 +114,7 @@ function getDeclaration(
         const output: SubTypeDeclarationDoc = {
           kind: "subtype",
           name: child.name,
-          type: getReadableType(child.type),
+          type: getTypeInfo(child.type),
           summary: getSummaryDoc(child.comment?.summary),
           blockTags: child.comment?.blockTags?.map(getBlockTag),
         };

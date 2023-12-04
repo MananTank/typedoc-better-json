@@ -3,7 +3,7 @@ import { ClassDoc, TypeParameter } from "../types";
 import { getFunctionDoc } from "./function";
 import { getVariableDoc } from "./variable";
 import { getAccessorDoc } from "./accessor";
-import { getReadableType } from "../utils/getReadableType";
+import { getTypeInfo } from "../utils/getReadableType";
 import { getSummaryDoc } from "./summary";
 import { getBlockTag } from "./blockTag";
 
@@ -78,14 +78,14 @@ export function getClassDoc(data: JSONOutput.DeclarationReflection): ClassDoc {
     typeParameters: data.typeParameters?.map((param) => {
       const typeParam: TypeParameter = {
         name: param.name,
-        extendsType: param.type ? getReadableType(param.type) : undefined,
-        defaultType: param.default ? getReadableType(param.default) : undefined,
+        extendsType: param.type ? getTypeInfo(param.type) : undefined,
+        defaultType: param.default ? getTypeInfo(param.default) : undefined,
       };
       return typeParam;
     }),
 
-    implements: data.implementedTypes?.map((t) => getReadableType(t)),
-    extends: data.extendedTypes?.map((t) => getReadableType(t)),
+    implements: data.implementedTypes?.map((t) => getTypeInfo(t)),
+    extends: data.extendedTypes?.map((t) => getTypeInfo(t)),
   };
 
   return output;

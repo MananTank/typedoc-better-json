@@ -298,7 +298,10 @@
           "parameters": [
             {
               "name": "a",
-              "type": "number",
+              "type": {
+                "code": "number",
+                "tokens": []
+              },
               "summary": [
                 {
                   "type": "paragraph",
@@ -313,7 +316,10 @@
             },
             {
               "name": "b",
-              "type": "number",
+              "type": {
+                "code": "number",
+                "tokens": []
+              },
               "summary": [
                 {
                   "type": "paragraph",
@@ -328,7 +334,10 @@
             },
             {
               "name": "rest",
-              "type": "number[]",
+              "type": {
+                "code": "number[]",
+                "tokens": []
+              },
               "summary": [
                 {
                   "type": "paragraph",
@@ -346,7 +355,10 @@
             }
           ],
           "returns": {
-            "type": "number",
+            "type": {
+              "code": "number",
+              "tokens": []
+            },
             "summary": [
               {
                 "type": "paragraph",
@@ -512,7 +524,10 @@
         }
       ],
       "source": "__REDACTED__",
-      "type": "{ boo: { (...args: [a: number]) : void ; bar: string }; foo: number; bar: () => { value: number } ; bazz: (a: number, b: number) => number  }",
+      "type": {
+        "code": "{ boo: { (...args: [a: number]) : void ; bar: string }; foo: number; bar: () => { value: number } ; bazz: (a: number, b: number) => number  }",
+        "tokens": []
+      },
       "typeDeclaration": [
         {
           "kind": "function",
@@ -533,14 +548,20 @@
               "parameters": [
                 {
                   "name": "args",
-                  "type": "[a: number]",
+                  "type": {
+                    "code": "[a: number]",
+                    "tokens": []
+                  },
                   "flags": {
                     "isRest": true
                   }
                 }
               ],
               "returns": {
-                "type": "void"
+                "type": {
+                  "code": "void",
+                  "tokens": []
+                }
               },
               "blockTags": [
                 {
@@ -562,7 +583,10 @@
         {
           "kind": "subtype",
           "name": "foo",
-          "type": "number",
+          "type": {
+            "code": "number",
+            "tokens": []
+          },
           "summary": [
             {
               "type": "paragraph",
@@ -592,7 +616,10 @@
                 }
               ],
               "returns": {
-                "type": "{ value: number }"
+                "type": {
+                  "code": "{ value: number }",
+                  "tokens": []
+                }
               }
             }
           ],
@@ -617,7 +644,10 @@
               "parameters": [
                 {
                   "name": "a",
-                  "type": "number",
+                  "type": {
+                    "code": "number",
+                    "tokens": []
+                  },
                   "summary": [
                     {
                       "type": "paragraph",
@@ -632,7 +662,10 @@
                 },
                 {
                   "name": "b",
-                  "type": "number",
+                  "type": {
+                    "code": "number",
+                    "tokens": []
+                  },
                   "summary": [
                     {
                       "type": "paragraph",
@@ -647,7 +680,10 @@
                 }
               ],
               "returns": {
-                "type": "number"
+                "type": {
+                  "code": "number",
+                  "tokens": []
+                }
               },
               "blockTags": [
                 {
@@ -683,13 +719,26 @@
         "signatures": [
           {
             "returns": {
-              "type": "Foo<T>"
+              "type": {
+                "code": "Foo<T>",
+                "tokens": [
+                  {
+                    "name": "T"
+                  }
+                ]
+              }
             },
             "typeParameters": [
               {
                 "name": "T",
-                "extendsType": "Record<string, unknown>",
-                "defaultType": "{ a: number }"
+                "extendsType": {
+                  "code": "Record<string, unknown>",
+                  "tokens": []
+                },
+                "defaultType": {
+                  "code": "{ a: number }",
+                  "tokens": []
+                }
               }
             ]
           }
@@ -706,7 +755,10 @@
               "parameters": [
                 {
                   "name": "a",
-                  "type": "number",
+                  "type": {
+                    "code": "number",
+                    "tokens": []
+                  },
                   "summary": [
                     {
                       "type": "paragraph",
@@ -721,7 +773,10 @@
                 },
                 {
                   "name": "b",
-                  "type": "number",
+                  "type": {
+                    "code": "number",
+                    "tokens": []
+                  },
                   "summary": [
                     {
                       "type": "paragraph",
@@ -736,7 +791,10 @@
                 }
               ],
               "returns": {
-                "type": "number"
+                "type": {
+                  "code": "number",
+                  "tokens": []
+                }
               },
               "blockTags": [
                 {
@@ -763,11 +821,21 @@
               "parameters": [
                 {
                   "name": "foo",
-                  "type": "T"
+                  "type": {
+                    "code": "T",
+                    "tokens": [
+                      {
+                        "name": "T"
+                      }
+                    ]
+                  }
                 }
               ],
               "returns": {
-                "type": "void"
+                "type": {
+                  "code": "void",
+                  "tokens": []
+                }
               }
             }
           ],
@@ -779,7 +847,10 @@
           "kind": "variable",
           "name": "boo",
           "source": "__REDACTED__",
-          "type": "{ (...args: [a: number]) : void ; bar: string }",
+          "type": {
+            "code": "{ (...args: [a: number]) : void ; bar: string }",
+            "tokens": []
+          },
           "typeDeclaration": [
             {
               "kind": "function",
@@ -800,14 +871,20 @@
                   "parameters": [
                     {
                       "name": "args",
-                      "type": "[a: number]",
+                      "type": {
+                        "code": "[a: number]",
+                        "tokens": []
+                      },
                       "flags": {
                         "isRest": true
                       }
                     }
                   ],
                   "returns": {
-                    "type": "void"
+                    "type": {
+                      "code": "void",
+                      "tokens": []
+                    }
                   },
                   "blockTags": [
                     {
@@ -829,7 +906,10 @@
             {
               "kind": "subtype",
               "name": "bar",
-              "type": "string"
+              "type": {
+                "code": "string",
+                "tokens": []
+              }
             }
           ]
         }
@@ -837,12 +917,38 @@
       "typeParameters": [
         {
           "name": "T",
-          "extendsType": "Record<string, unknown>",
-          "defaultType": "{ a: number }"
+          "extendsType": {
+            "code": "Record<string, unknown>",
+            "tokens": []
+          },
+          "defaultType": {
+            "code": "{ a: number }",
+            "tokens": []
+          }
         }
       ],
-      "implements": ["Bar"],
-      "extends": ["Bar2"]
+      "implements": [
+        {
+          "code": "Bar",
+          "tokens": [
+            {
+              "name": "Bar",
+              "package": "typedoc-better-json"
+            }
+          ]
+        }
+      ],
+      "extends": [
+        {
+          "code": "Bar2",
+          "tokens": [
+            {
+              "name": "Bar2",
+              "package": "typedoc-better-json"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
