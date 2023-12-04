@@ -723,6 +723,10 @@
                 "code": "Foo<T>",
                 "tokens": [
                   {
+                    "name": "Foo",
+                    "package": "typedoc-better-json"
+                  },
+                  {
                     "name": "T"
                   }
                 ]
@@ -733,7 +737,12 @@
                 "name": "T",
                 "extendsType": {
                   "code": "Record<string, unknown>",
-                  "tokens": []
+                  "tokens": [
+                    {
+                      "name": "Record",
+                      "package": "typescript"
+                    }
+                  ]
                 },
                 "defaultType": {
                   "code": "{ a: number }",
@@ -919,7 +928,12 @@
           "name": "T",
           "extendsType": {
             "code": "Record<string, unknown>",
-            "tokens": []
+            "tokens": [
+              {
+                "name": "Record",
+                "package": "typescript"
+              }
+            ]
           },
           "defaultType": {
             "code": "{ a: number }",

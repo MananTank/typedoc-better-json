@@ -80,17 +80,18 @@ export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
       }
 
       case "reference": {
+        // Foo
+        tokens.push({
+          name: typeObj.name,
+          package: typeObj.package,
+        });
+
         // SomeGeneric<T>
         if (typeObj.typeArguments) {
           const typeInfos = typeObj.typeArguments.map(getTypeInfo);
           typeInfos.forEach(collectTokens);
           return `${typeObj.name}<${typeInfos.map((t) => t.code).join(", ")}>`;
         }
-
-        tokens.push({
-          name: typeObj.name,
-          package: typeObj.package,
-        });
 
         return typeObj.name;
       }
