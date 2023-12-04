@@ -28,7 +28,23 @@ export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
               if (child.type) {
                 const typeInfo = getTypeInfo(child.type);
                 collectTokens(typeInfo);
-                return `${keyName}: ${typeInfo.code}`;
+                const postfix = child.flags.isOptional ? "?" : "";
+                let prefix = "";
+                if (child.flags.isReadonly) {
+                  prefix = "readonly ";
+                } else if (child.flags.isRest) {
+                  prefix = "...";
+                } else if (child.flags.isAbstract) {
+                  prefix = "abstract ";
+                } else if (child.flags.isPrivate) {
+                  prefix = "private ";
+                } else if (child.flags.isStatic) {
+                  prefix = "static ";
+                } else if (child.flags.isProtected) {
+                  prefix = "protected ";
+                }
+
+                return `${prefix}${keyName}${postfix}: ${typeInfo.code}`;
               }
 
               if (child.signatures) {
