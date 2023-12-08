@@ -50,6 +50,11 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
       };
       return typeParam;
     }),
+    inheritedFrom: signature.inheritedFrom
+      ? {
+          name: signature.inheritedFrom.name,
+        }
+      : undefined,
     blockTags: signature.comment?.blockTags
       ?.filter((w) => w.tag !== "@returns")
       .map(getBlockTag),

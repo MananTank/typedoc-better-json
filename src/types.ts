@@ -86,6 +86,9 @@ export type FunctionSignature = {
   };
   blockTags?: BlockTag[];
   flags?: Flags;
+  inheritedFrom?: {
+    name: string;
+  };
 };
 
 export type FunctionParameter = {

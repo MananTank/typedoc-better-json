@@ -749,7 +749,10 @@
                   "tokens": []
                 }
               }
-            ]
+            ],
+            "inheritedFrom": {
+              "name": "Bar2.constructor"
+            }
           }
         ],
         "source": "__REDACTED__"
