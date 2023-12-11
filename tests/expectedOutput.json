@@ -852,6 +852,39 @@
             }
           ],
           "source": "__REDACTED__"
+        },
+        {
+          "kind": "function",
+          "name": "getBar",
+          "signatures": [
+            {
+              "returns": {
+                "type": {
+                  "code": "number",
+                  "tokens": []
+                }
+              }
+            }
+          ],
+          "source": "__REDACTED__"
+        },
+        {
+          "kind": "function",
+          "name": "getFoo",
+          "signatures": [
+            {
+              "returns": {
+                "type": {
+                  "code": "number",
+                  "tokens": []
+                }
+              }
+            }
+          ],
+          "source": "__REDACTED__",
+          "flags": {
+            "isPrivate": true
+          }
         }
       ],
       "properties": [

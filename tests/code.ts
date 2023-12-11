@@ -141,4 +141,12 @@ export class Foo<T extends Record<string, unknown> = { a: number }>
    * ```
    */
   bazz = (a: number, b: number) => a + b;
+
+  private getFoo() {
+    return 10;
+  }
+
+  getBar() {
+    return this.getFoo();
+  }
 }

@@ -17,6 +17,7 @@ export function getFunctionDoc(
     name: data.name,
     signatures: data.signatures?.map(getFunctionSignatureDoc),
     source: data.sources?.[0]?.url,
+    flags: Object.keys(data.flags).length > 0 ? data.flags : undefined,
   };
 }
 

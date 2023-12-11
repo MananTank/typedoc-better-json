@@ -61,6 +61,7 @@ export type FunctionDoc = {
   name: string;
   source?: string;
   signatures?: FunctionSignature[];
+  flags?: Flags;
 };
 
 export type AccessorDoc = {
