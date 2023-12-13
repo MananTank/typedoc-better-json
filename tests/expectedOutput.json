@@ -525,7 +525,7 @@
       ],
       "source": "__REDACTED__",
       "type": {
-        "code": "{ boo: { (...args: [a: number]) : void ; bar: string }; foo: number; bar: () => { value: number } ; bazz: (a: number, b: number) => number  }",
+        "code": "{ boo: { (a: number) : void ; bar: string }; foo: number; bar: () => { value: number } ; bazz: (a: number, b: number) => number  }",
         "tokens": []
       },
       "typeDeclaration": [
@@ -893,7 +893,7 @@
           "name": "boo",
           "source": "__REDACTED__",
           "type": {
-            "code": "{ (...args: [a: number]) : void ; bar: string }",
+            "code": "{ (a: number) : void ; bar: string }",
             "tokens": []
           },
           "typeDeclaration": [

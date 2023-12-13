@@ -26,16 +26,9 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
     flags:
       Object.keys(signature.flags).length > 0 ? signature.flags : undefined,
     summary: getSummaryDoc(signature.comment?.summary),
-    parameters: signature.parameters?.map((param) => {
-      const arg: FunctionParameter = {
-        name: param.name,
-        type: param.type ? getTypeInfo(param.type) : undefined,
-        summary: getSummaryDoc(param.comment?.summary),
-        flags: Object.keys(param.flags).length > 0 ? param.flags : undefined,
-        blockTags: param.comment?.blockTags?.map(getBlockTag),
-      };
-      return arg;
-    }),
+    parameters: signature.parameters
+      ? getFunctionParametersDoc(signature.parameters)
+      : undefined,
     returns: {
       type: signature.type ? getTypeInfo(signature.type) : undefined,
       summary: getSummaryDoc(
@@ -62,4 +55,19 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
   };
 
   return output;
+}
+
+export function getFunctionParametersDoc(
+  parameters: JSONOutput.ParameterReflection[],
+): FunctionParameter[] {
+  return parameters?.map((param) => {
+    const arg: FunctionParameter = {
+      name: param.name,
+      type: param.type ? getTypeInfo(param.type) : undefined,
+      summary: getSummaryDoc(param.comment?.summary),
+      flags: Object.keys(param.flags).length > 0 ? param.flags : undefined,
+      blockTags: param.comment?.blockTags?.map(getBlockTag),
+    };
+    return arg;
+  });
 }

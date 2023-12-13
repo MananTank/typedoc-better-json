@@ -1,5 +1,7 @@
 import type { JSONOutput } from "typedoc";
 import { TokenInfo, TypeInfo } from "../types";
+import { getParametersSignature } from "../getSignature/getFunctionSignature";
+import { getFunctionParametersDoc } from "../nodes/function";
 
 export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
   const tokens: TokenInfo[] = [];
@@ -302,22 +304,26 @@ export function getFunctionSignatureTypeInfo(
 ): TypeInfo {
   const tokens: TokenInfo[] = [];
 
-  const paramsTypeInfos = signature.parameters?.map(getParameterCode);
-  paramsTypeInfos?.forEach((t) => t.tokens?.forEach((r) => tokens.push(r)));
+  let parametersCode = "";
+
+  if (signature.parameters) {
+    const functionParams = getFunctionParametersDoc(signature.parameters);
+    const paramTypeInfo = getParametersSignature(functionParams);
+    parametersCode = paramTypeInfo.code;
+    paramTypeInfo.tokens?.forEach((t) => tokens.push(t));
+  }
 
   const returntypeInfo = signature.type
     ? getTypeInfo(signature.type)
     : undefined;
   returntypeInfo?.tokens?.forEach((r) => tokens.push(r));
 
-  const parameters = paramsTypeInfos?.map((p) => p.code).join(", ") || "";
-
   const returnType = returntypeInfo
     ? `${hasMultipleSig ? ":" : "=>"} ${returntypeInfo.code}`
     : "";
 
   return {
-    code: `(${parameters}) ${returnType}`,
+    code: `(${parametersCode}) ${returnType}`,
     tokens,
   };
 }
@@ -328,21 +334,4 @@ function createValidKey(str: string) {
     return `"${str}"`;
   }
   return str;
-}
-
-function getParameterCode(parameter: JSONOutput.ParameterReflection): TypeInfo {
-  const name =
-    (parameter.flags.isRest ? "..." : "") +
-    parameter.name +
-    (parameter.flags.isOptional ? "?" : "");
-
-  const defaultValue = parameter.defaultValue
-    ? ` = ${parameter.defaultValue}`
-    : "";
-
-  const typeInfo = parameter.type ? getTypeInfo(parameter.type) : undefined;
-  return {
-    code: `${name}: ${typeInfo?.code || "unknown"}${defaultValue}`,
-    tokens: typeInfo?.tokens,
-  };
 }
