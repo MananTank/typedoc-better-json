@@ -1,4 +1,5 @@
 import { ClassDoc, TypeInfo, TokenInfo } from "../types";
+import { getTypeParamSignature } from "./getTypeParamSignature";
 
 export function getClassSignature(classDoc: ClassDoc): TypeInfo {
   const tokens: TokenInfo[] = [];
@@ -9,21 +10,12 @@ export function getClassSignature(classDoc: ClassDoc): TypeInfo {
     }
   };
 
-  const generic = classDoc.typeParameters
-    ? `<${classDoc.typeParameters
-        .map((t) => {
-          collect(t.defaultType);
-          collect(t.extendsType);
-
-          const defaultVal = t.defaultType ? ` = ${t.defaultType.code}` : "";
-          return (
-            (t.extendsType
-              ? `${t.name} extends ${t.extendsType.code}`
-              : t.name) + defaultVal
-          );
-        })
-        .join(", ")}>`
-    : "";
+  let generic = "";
+  if (classDoc.typeParameters) {
+    const typeParams = getTypeParamSignature(classDoc.typeParameters);
+    generic = typeParams.code;
+    collect(typeParams);
+  }
 
   const implmentsStr = classDoc.implements
     ? `implements ${classDoc.implements

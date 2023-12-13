@@ -4,6 +4,7 @@ import {
   TokenInfo,
   FunctionParameter,
 } from "../types";
+import { getTypeParamSignature } from "./getTypeParamSignature";
 
 export function getFunctionSignature(
   name: string,
@@ -26,23 +27,13 @@ export function getFunctionSignature(
     output.tokens?.forEach((t) => tokens.push(t));
   }
 
-  const typeParams = signature.typeParameters
-    ? `<${signature.typeParameters
-        .map((param) => {
-          const defaultVal = param.defaultType
-            ? ` = ${param.defaultType.code}`
-            : "";
+  let typeParams = "";
 
-          collectTokens(param.extendsType);
-          collectTokens(param.defaultType);
-          return (
-            `${param.name}${
-              param.extendsType ? ` extends ${param.extendsType.code}` : ""
-            }` + defaultVal
-          );
-        })
-        .join(", ")}>`
-    : "";
+  if (signature.typeParameters) {
+    const output = getTypeParamSignature(signature.typeParameters);
+    typeParams = output.code;
+    output.tokens?.forEach((t) => tokens.push(t));
+  }
 
   return {
     code: `function ${name}${typeParams}(${paramList}) : ${returnType}`,
