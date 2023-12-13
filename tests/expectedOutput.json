@@ -547,13 +547,10 @@
               ],
               "parameters": [
                 {
-                  "name": "args",
+                  "name": "a",
                   "type": {
-                    "code": "[a: number]",
+                    "code": "number",
                     "tokens": []
-                  },
-                  "flags": {
-                    "isRest": true
                   }
                 }
               ],
@@ -915,13 +912,10 @@
                   ],
                   "parameters": [
                     {
-                      "name": "args",
+                      "name": "a",
                       "type": {
-                        "code": "[a: number]",
+                        "code": "number",
                         "tokens": []
-                      },
-                      "flags": {
-                        "isRest": true
                       }
                     }
                   ],

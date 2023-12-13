@@ -55,17 +55,6 @@ export function getParametersSignature(
       const postfix = param.flags?.isOptional ? "?" : "";
       const prefix = param.flags?.isRest ? "..." : "";
       collectTokens(param.type);
-
-      // convert the (...args: [x: foo, y: bar]) to (x: foo, y: bar)
-      const typeCode = param.type?.code || "";
-
-      if (
-        prefix &&
-        typeCode[0] === "[" &&
-        typeCode[typeCode.length - 1] === "]"
-      ) {
-        return `${typeCode.slice(1, -1)}`;
-      }
       return `${prefix}${param.name}${postfix}: ${param.type?.code}`;
     })
     .join(", ");

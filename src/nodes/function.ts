@@ -60,7 +60,27 @@ function getFunctionSignatureDoc(signature: JSONOutput.SignatureReflection) {
 export function getFunctionParametersDoc(
   parameters: JSONOutput.ParameterReflection[],
 ): FunctionParameter[] {
-  return parameters?.map((param) => {
+  // convert the (...args: [x: Foo, y: Bar]) params to a list of params
+  if (parameters.length === 1 && parameters[0]) {
+    const type = parameters[0] && parameters[0].type;
+    if (type?.type === "tuple" && type.elements) {
+      const output: FunctionParameter[] = [];
+
+      type.elements.forEach((member) => {
+        if (member.type === "namedTupleMember") {
+          const typeInfo = getTypeInfo(member.element);
+          output.push({
+            name: member.name,
+            type: typeInfo,
+          });
+        }
+      });
+
+      return output;
+    }
+  }
+
+  return parameters.map((param) => {
     const arg: FunctionParameter = {
       name: param.name,
       type: param.type ? getTypeInfo(param.type) : undefined,
