@@ -1,6 +1,6 @@
 {
   "name": "typedoc-better-json",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Transforms typedoc's json output to a format that is better for creating custom documentation website",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
