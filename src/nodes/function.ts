@@ -61,7 +61,7 @@ export function getFunctionParametersDoc(
   parameters: JSONOutput.ParameterReflection[],
 ): FunctionParameter[] {
   // convert the (...args: [x: Foo, y: Bar]) params to a list of params
-  if (parameters.length === 1 && parameters[0]) {
+  if (parameters.length === 1 && parameters[0] && parameters[0].flags.isRest) {
     const type = parameters[0] && parameters[0].type;
     if (type?.type === "tuple" && type.elements) {
       const output: FunctionParameter[] = [];
