@@ -11,7 +11,12 @@ export function getSummaryDoc(
     .map((s) => {
       if (s.kind === "inline-tag") {
         if (s.tag === "@link") {
-          return `[${s.text}](${s.target})`;
+          const target = s.target;
+          if (target) {
+            if (typeof target === "string") {
+              return `[${s.text}](${target})`;
+            }
+          }
         }
       }
 
