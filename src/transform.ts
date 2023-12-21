@@ -22,64 +22,102 @@ const groupNameMap = {
  * @param inputData - typedoc's JSON output parsed into a JS object via JSON.parse
  */
 export function transform(inputData: JSONOutput.ProjectReflection) {
-  const functions: TransformedDoc["functions"] = [];
-  const hooks: TransformedDoc["hooks"] = [];
-  const components: TransformedDoc["components"] = [];
-  const types: TransformedDoc["types"] = [];
-  const variables: TransformedDoc["variables"] = [];
-  const enums: TransformedDoc["enums"] = [];
-  const classes: TransformedDoc["classes"] = [];
+  const functions: NonNullable<TransformedDoc["functions"]> = [];
+  const hooks: NonNullable<TransformedDoc["hooks"]> = [];
+  const components: NonNullable<TransformedDoc["components"]> = [];
+  const types: NonNullable<TransformedDoc["types"]> = [];
+  const variables: NonNullable<TransformedDoc["variables"]> = [];
+  const enums: NonNullable<TransformedDoc["enums"]> = [];
+  const classes: NonNullable<TransformedDoc["classes"]> = [];
 
+  // map childId to doc
   const childrenMap: Record<string, JSONOutput.DeclarationReflection> = {};
-  inputData.children?.forEach((child) => {
-    childrenMap[child.id] = child;
-  });
 
-  inputData.groups?.forEach((group) => {
-    if (group.title in groupNameMap) {
-      const mappedTitle =
-        groupNameMap[group.title as keyof typeof groupNameMap];
+  function createChildrenMap(children: JSONOutput.DeclarationReflection[]) {
+    children.forEach((child) => {
+      childrenMap[child.id] = child;
+    });
+  }
 
-      group.children?.map(async (childId) => {
-        const childData = childrenMap[childId];
-        if (!childData) {
-          throw new Error(`Failed to resolve child id ${childId}`);
+  function collectChildren(group: JSONOutput.ReflectionGroup) {
+    const mappedTitle = groupNameMap[group.title as keyof typeof groupNameMap];
+
+    group.children?.map(async (childId) => {
+      const childData = childrenMap[childId];
+      if (!childData) {
+        throw new Error(`Failed to resolve child id ${childId}`);
+      }
+
+      switch (mappedTitle) {
+        case "functions": {
+          if (childData.name.startsWith("use")) {
+            hooks.push(getFunctionDoc(childData));
+          } else if (isComponentType(childData)) {
+            components.push(getFunctionDoc(childData));
+          } else {
+            functions.push(getFunctionDoc(childData));
+          }
+          break;
         }
 
-        switch (mappedTitle) {
-          case "functions": {
-            if (childData.name.startsWith("use")) {
-              hooks!.push(getFunctionDoc(childData));
-            } else if (isComponentType(childData)) {
-              components!.push(getFunctionDoc(childData));
-            } else {
-              functions.push(getFunctionDoc(childData));
-            }
-            break;
-          }
-
-          case "types": {
-            types.push(getInterfaceDoc(childData));
-            break;
-          }
-
-          case "variables": {
-            variables.push(getVariableDoc(childData));
-            break;
-          }
-
-          case "classes": {
-            classes.push(getClassDoc(childData));
-            break;
-          }
-
-          case "enums": {
-            enums.push(getEnumDoc(childData));
-          }
+        case "types": {
+          types.push(getInterfaceDoc(childData));
+          break;
         }
+
+        case "variables": {
+          variables.push(getVariableDoc(childData));
+          break;
+        }
+
+        case "classes": {
+          classes.push(getClassDoc(childData));
+          break;
+        }
+
+        case "enums": {
+          enums.push(getEnumDoc(childData));
+        }
+      }
+    });
+  }
+
+  if (
+    inputData.groups &&
+    inputData.groups.length === 1 &&
+    inputData.groups[0] &&
+    inputData.groups[0].title === "Modules"
+  ) {
+    const modules = inputData.groups[0].children?.map((moduleId) => {
+      const moduleDoc = inputData.children?.find(
+        (child) => child.id === moduleId,
+      );
+
+      if (!moduleDoc) {
+        throw new Error(`Failed to resolve module id ${moduleId}`);
+      }
+
+      if (moduleDoc.children) {
+        createChildrenMap(moduleDoc.children);
+      }
+
+      return moduleDoc;
+    });
+
+    modules?.forEach((moduleDoc) => {
+      moduleDoc?.groups?.forEach((group) => {
+        collectChildren(group);
       });
+    });
+  } else {
+    if (inputData.children) {
+      createChildrenMap(inputData.children);
     }
-  });
+
+    inputData.groups?.forEach((group) => {
+      collectChildren(group);
+    });
+  }
 
   const output: TransformedDoc = {
     meta: {

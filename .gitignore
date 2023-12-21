@@ -4,3 +4,4 @@ dist
 tests/typedoc.json
 tests/output.json
 debug
+convert
