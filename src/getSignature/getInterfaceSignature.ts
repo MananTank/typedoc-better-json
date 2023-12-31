@@ -1,5 +1,4 @@
-import { TokenInfo } from "../../dist";
-import { InterfaceDoc, TypeInfo } from "../types";
+import { InterfaceDoc, TokenInfo, TypeInfo } from "../types";
 
 export function getInterfaceSignature(doc: InterfaceDoc): TypeInfo {
   if (!doc.type)

@@ -1,5 +1,4 @@
-import { TypeInfo } from "../../dist";
-import { EnumDoc } from "../types";
+import { EnumDoc, TypeInfo } from "../types";
 
 export function getEnumSignature(doc: EnumDoc): TypeInfo {
   return {
