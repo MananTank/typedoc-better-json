@@ -7,26 +7,28 @@ import { getBlockTag } from "./blockTag";
 export function getAccessorDoc(
   data: JSONOutput.DeclarationReflection,
 ): AccessorDoc {
+  const sig = data.getSignature;
   return {
     kind: "accessor",
     name: data.name,
-    source: data.sources?.[0]?.url,
-    summary: getSummaryDoc(data.comment?.summary),
-    returns: data.getSignature
+    source: sig?.sources?.[0]?.url,
+    summary: sig ? getSummaryDoc(sig.comment?.summary) : undefined,
+    returns: sig
       ? {
-          type: data.getSignature.type
-            ? getTypeInfo(data.getSignature.type)
-            : undefined,
+          type: sig.type ? getTypeInfo(sig.type) : undefined,
           summary: getSummaryDoc(
-            data.getSignature.comment?.blockTags?.find(
-              (tag) => tag.tag === "@returns",
-            )?.content,
+            sig.comment?.blockTags?.find((tag) => tag.tag === "@returns")
+              ?.content,
           ),
         }
       : undefined,
-    blockTags: data.comment?.blockTags
+    blockTags: sig?.comment?.blockTags
       ?.filter((w) => w.tag !== "@returns")
       .map(getBlockTag),
-    flags: Object.keys(data.flags).length > 0 ? data.flags : undefined,
+    flags: sig
+      ? Object.keys(sig.flags).length > 0
+        ? sig.flags
+        : undefined
+      : undefined,
   };
 }
