@@ -120,6 +120,9 @@ export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
           .map((t) => {
             const typeInfo = getTypeInfo(t);
             collectTokens(typeInfo);
+            if (t.type === "literal" || t.type === "intrinsic") {
+              return typeInfo.code;
+            }
             return `(${typeInfo.code})`;
           })
           .join(" | ");
@@ -139,11 +142,7 @@ export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
         const typeInfo = getTypeInfo(typeObj.elementType);
         collectTokens(typeInfo);
 
-        // larger types should be Array<SomeType> so that the type it is more readable
-        if (typeInfo.code.length > 50) {
-          return `Array<${typeInfo.code}>`;
-        }
-        return `${typeInfo.code}[]`;
+        return `Array<${typeInfo.code}>`;
       }
 
       // Foo extends Bar ? Baz : Qux
@@ -178,7 +177,10 @@ export function getTypeInfo(typeObj: JSONOutput.SomeType): TypeInfo {
           .map((t) => {
             const typeInfo = getTypeInfo(t);
             collectTokens(typeInfo);
-            return `${typeInfo.code}`;
+            if (t.type === "literal" || t.type === "intrinsic") {
+              return typeInfo.code;
+            }
+            return `(${typeInfo.code})`;
           })
           .join(" & ");
       }
