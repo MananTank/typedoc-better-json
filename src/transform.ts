@@ -7,6 +7,7 @@ import { getEnumDoc } from "./nodes/enum";
 import { getVariableDoc } from "./nodes/variable";
 import { getClassDoc } from "./nodes/class";
 import pkg from "../package.json";
+import { isHook } from "./utils/isHook";
 
 const groupNameMap = {
   Interfaces: "types",
@@ -50,7 +51,7 @@ export function transform(inputData: JSONOutput.ProjectReflection) {
 
       switch (mappedTitle) {
         case "functions": {
-          if (childData.name.startsWith("use")) {
+          if (isHook(childData.name)) {
             hooks.push(getFunctionDoc(childData));
           } else if (isComponentType(childData)) {
             components.push(getFunctionDoc(childData));
