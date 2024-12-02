@@ -550,7 +550,3 @@ async function Example() {
 ### License
 
 MIT
-
-```
-
-```
